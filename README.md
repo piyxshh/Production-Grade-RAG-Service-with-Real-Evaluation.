@@ -1,18 +1,17 @@
 # RAG Service — Production-Grade Retrieval-Augmented Generation
 
-> **Portfolio Project 2.** A standalone, production-grade RAG service built to prove deep AI engineering understanding: hybrid retrieval, mathematical evaluation, observability, and agentic orchestration. Built twice — manually first, then with LangChain/LangGraph — so the abstraction gap is explicit and owned.
+A standalone, production-grade RAG service featuring hybrid retrieval, mathematical evaluation, observability, and agentic orchestration.
 
 ---
 
-## What This Project Proves
+## Features
 
-| Gap It Closes | What This Demonstrates |
-|---------------|------------------------|
-| RAG beyond API calls | Manual chunking, embedding, RRF fusion, cross-encoder reranking |
-| LLMOps maturity | RAGAS evaluation with before/after scores, not "looks right" vibes |
-| Python/FastAPI depth | Genuine async service, not a script wrapped in Flask |
-| Observability | Per-stage token, latency, and cost tracing via Langfuse |
-| Framework understanding | LangChain rebuild after manual version — knows what the abstraction hides |
+- **Hybrid Retrieval**: Combines dense vector search (pgvector) with sparse keyword matching (BM25) via Reciprocal Rank Fusion (RRF).
+- **Cross-Encoder Reranking**: Re-ranks fused results using a cross-encoder model for high precision.
+- **Async Architecture**: Fully asynchronous FastAPI backend for concurrent embedding and retrieval calls.
+- **Evaluation Suite**: Built-in RAGAS evaluation harness to measure Faithfulness, Answer Relevance, and Context Precision/Recall.
+- **Observability**: Integrated tracing for token usage, latency, and costs per pipeline stage.
+- **Agentic Orchestration**: Uses LangGraph to make retrieval decisions (e.g., re-retrieval on low confidence).
 
 ---
 
@@ -28,7 +27,7 @@ Client Request
 └──────────────────────┬──────────────────────────────┘
                        │
          ┌─────────────▼──────────────┐
-         │     Manual RAG Pipeline     │
+         │        RAG Pipeline         │
          └──┬──────────────────────┬───┘
             │                      │
    ┌────────▼────────┐   ┌─────────▼────────┐
@@ -63,81 +62,6 @@ Client Request
 
 **Infrastructure:**
 - Docker + docker-compose (local)
-- Deployed on [deployment target TBD]
-
----
-
-## Corpus
-
-**Corpus chosen:** [TBD — document your choice here and the reason]
-
-**Why this corpus:**
-[Write 1-2 sentences explaining your decision here after you make it]
-
-**Volume:**
-- Documents: [N]
-- Chunks after processing: [N]
-- Avg chunk size: [N tokens]
-
----
-
-## Results (Fill In After Each Phase)
-
-### Phase 1: RAGAS Evaluation — Naive vs. Hybrid+Reranked
-
-| Metric | Naive Vector-Only | Hybrid + Reranked | Delta |
-|--------|-------------------|-------------------|-------|
-| Faithfulness | — | — | — |
-| Answer Relevance | — | — | — |
-| Context Precision | — | — | — |
-| Context Recall | — | — | — |
-
-> Scores above are on a 0.0–1.0 scale. Higher is better.
-
-### Phase 2: Latency & Cost Per Pipeline Stage
-
-| Stage | Avg Latency (ms) | Avg Cost (USD/req) | Tokens |
-|-------|------------------|--------------------|--------|
-| Embedding (query) | — | — | — |
-| Dense Retrieval | — | — | — |
-| BM25 Retrieval | — | — | — |
-| RRF Fusion | — | — | — |
-| Reranking | — | — | — |
-| LLM Generation | — | — | — |
-| **Total** | — | — | — |
-
----
-
-## One Documented Failure Mode
-
-> *Fill in after running the evaluation suite. Find a query the system handles badly, understand why, and document it here.*
-
-**Query that fails:** [TBD]
-
-**What the pipeline does:** [TBD — e.g., retrieves topically adjacent but factually wrong chunks]
-
-**Why it fails:** [TBD — e.g., BM25 keyword match wins over semantic similarity here because the query uses generic terms]
-
-**How it was handled (or why it wasn't fixed):** [TBD]
-
----
-
-## Key Technical Decisions
-
-### Chunking Strategy
-[Document your chunking approach and why. What chunk size? Overlap? Semantic or fixed-size?]
-
-### Hybrid Retrieval (RRF Fusion)
-[Explain Reciprocal Rank Fusion in your own words. What does it promise? Where does it break?]
-
-### Reranking
-[Explain why reranking exists as a separate stage rather than just asking the vector DB for better results.]
-
-### Rate-Limiting Algorithms Tradeoff
-_(N/A — see Project 1)_
-
-### LangChain vs Manual
-[After Phase 2, document what LangChain abstracted away. What did you gain? What did you lose visibility into?]
 
 ---
 
@@ -145,84 +69,80 @@ _(N/A — see Project 1)_
 
 ```
 p2(RAG)/
-├── README.md                      ← you are here
-├── PRD.md                         ← full product requirements
-├── IMPLEMENTATION_PLAN.md         ← phased build plan with task checklist
-├── .env.example                   ← env variable template (no secrets)
+├── README.md                      
+├── PRD.md                         
+├── IMPLEMENTATION_PLAN.md         
+├── .env.example                   
 ├── .gitignore
-├── docker-compose.yml             ← Postgres + pgvector + app
+├── docker-compose.yml             
 ├── Dockerfile
-├── pyproject.toml                 ← deps managed via Poetry
+├── pyproject.toml                 
 │
 ├── src/
-│   ├── main.py                    ← FastAPI app entry point
-│   ├── config.py                  ← Pydantic Settings from .env
+│   ├── main.py                    
+│   ├── config.py                  
 │   │
 │   ├── api/
 │   │   ├── routes/
-│   │   │   ├── query.py           ← POST /query
-│   │   │   ├── ingest.py          ← POST /ingest
-│   │   │   └── health.py          ← GET /health
-│   │   └── dependencies.py        ← FastAPI DI (DB sessions, pipeline)
+│   │   │   ├── query.py           
+│   │   │   ├── ingest.py          
+│   │   │   └── health.py          
+│   │   └── dependencies.py        
 │   │
 │   ├── ingestion/
-│   │   ├── chunker.py             ← [YOU WRITE] chunking logic
-│   │   ├── embedder.py            ← [YOU WRITE] embedding API calls
-│   │   ├── loaders.py             ← document loaders (PDF, HTML, text)
-│   │   └── pipeline.py            ← orchestrates ingest end-to-end
+│   │   ├── chunker.py             
+│   │   ├── embedder.py            
+│   │   ├── loaders.py             
+│   │   └── pipeline.py            
 │   │
 │   ├── retrieval/
-│   │   ├── dense.py               ← [YOU WRITE] pgvector similarity search
-│   │   ├── sparse.py              ← [YOU WRITE] BM25 / Postgres FTS
-│   │   ├── fusion.py              ← [YOU WRITE] Reciprocal Rank Fusion
-│   │   └── reranker.py            ← [YOU WRITE] cross-encoder reranking
+│   │   ├── dense.py               
+│   │   ├── sparse.py              
+│   │   ├── fusion.py              
+│   │   └── reranker.py            
 │   │
 │   ├── generation/
-│   │   ├── prompt_builder.py      ← [YOU WRITE] manual prompt assembly
-│   │   └── generator.py           ← LLM API call wrapper
+│   │   ├── prompt_builder.py      
+│   │   └── generator.py           
 │   │
 │   ├── pipeline/
-│   │   ├── manual.py              ← Phase 1: stitches all modules together
-│   │   ├── langchain_pipeline.py  ← Phase 4: LangChain rebuild
-│   │   └── agentic.py             ← Phase 4: LangGraph agentic version
+│   │   ├── manual.py              
+│   │   ├── langchain_pipeline.py  
+│   │   └── agentic.py             
 │   │
 │   ├── evaluation/
-│   │   ├── ragas_eval.py          ← [YOU WRITE] RAGAS evaluation harness
-│   │   └── metrics.py             ← helper metrics and result formatting
+│   │   ├── ragas_eval.py          
+│   │   └── metrics.py             
 │   │
 │   ├── observability/
-│   │   └── tracing.py             ← Langfuse / LangSmith instrumentation
+│   │   └── tracing.py             
 │   │
 │   └── db/
-│       ├── models.py              ← SQLAlchemy ORM models
-│       ├── session.py             ← async DB session factory
-│       └── migrations/            ← Alembic migration scripts
+│       ├── models.py              
+│       ├── session.py             
+│       └── migrations/            
 │
 ├── corpus/
-│   ├── raw/                       ← downloaded source documents (gitignored if large)
-│   └── processed/                 ← chunked + cleaned (gitignored if large)
+│   ├── raw/                       
+│   └── processed/                 
 │
 ├── evaluation/
-│   ├── test_set.json              ← your 30+ hand-written Q&A pairs
-│   └── results/                   ← RAGAS score outputs (JSON/CSV)
+│   ├── test_set.json              
+│   └── results/                   
 │
 ├── notebooks/
-│   ├── 01_explore_corpus.ipynb    ← initial EDA of your corpus
+│   ├── 01_explore_corpus.ipynb    
 │   ├── 02_chunking_experiments.ipynb
 │   ├── 03_retrieval_experiments.ipynb
 │   └── 04_eval_analysis.ipynb
 │
 ├── scripts/
-│   ├── ingest_corpus.py           ← CLI: run full ingestion pipeline
-│   └── run_eval.py                ← CLI: run evaluation suite
+│   ├── ingest_corpus.py           
+│   └── run_eval.py                
 │
 ├── tests/
 │   ├── unit/
-│   │   ├── test_chunker.py
-│   │   ├── test_fusion.py
-│   │   └── test_reranker.py
 │   └── integration/
-│       └── test_pipeline.py
 │
 └── docs/
     ├── architecture.md
@@ -232,7 +152,6 @@ p2(RAG)/
 ---
 
 ## Local Setup
-
 
 ### Prerequisites
 - Python 3.11+
@@ -284,6 +203,3 @@ poetry run python scripts/run_eval.py
 
 # Results will be written to evaluation/results/
 ```
-
----
-
