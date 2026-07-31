@@ -233,7 +233,6 @@ p2(RAG)/
 
 ## Local Setup
 
-> *(Fill in as you build each phase)*
 
 ### Prerequisites
 - Python 3.11+
@@ -288,17 +287,3 @@ poetry run python scripts/run_eval.py
 
 ---
 
-## What I Learned
-
-> *(Write this section last, in your own words, without notes. If you can't write it, it's not done yet.)*
-
-1. **Chunking:** 
-2. **Hybrid Retrieval (RRF):**
-3. **Cross-Encoder Reranking:**
-4. **RAGAS Evaluation:**
-5. **LangChain Abstraction:**
-6. **Async Python:**
-
----
-
-*Built by Piyush. Portfolio project — the goal was to understand the mechanism, not just ship the feature.*
