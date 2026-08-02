@@ -4,19 +4,27 @@ Application configuration — loaded from .env via Pydantic Settings.
 All secrets live in .env (never hardcoded). This is the single source of truth
 for configuration across the entire app. Import `settings` anywhere you need config.
 """
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Project root: .../src/config.py -> .../
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=(PROJECT_ROOT / ".env.local", PROJECT_ROOT / ".env"),
+        extra="ignore",
+    )
 
     # Database
     database_url: str
 
     # Embedding
-    embedding_provider: str = "openai"
-    openai_api_key: str = ""
-    embedding_model: str = "text-embedding-3-small"
+    embedding_provider: str = "cohere"
+    cohere_key: str = ""
+    cohere_model: str = "embed-english-v3.0"
 
     # LLM
     llm_provider: str = "openai"
