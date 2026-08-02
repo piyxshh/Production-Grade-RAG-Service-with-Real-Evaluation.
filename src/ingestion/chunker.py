@@ -19,6 +19,9 @@ def chunk_text(text: str, chunk_size: int = 500, overlap: int = 50) -> list[str]
         raise ValueError("overlap must be smaller than chunk_size")
 
     text = text or ""
+    if not text:
+        return []
+
     chunks: list[str] = []
     step = chunk_size - overlap
     start = 0
@@ -26,6 +29,8 @@ def chunk_text(text: str, chunk_size: int = 500, overlap: int = 50) -> list[str]
 
     while start < end:
         chunks.append(text[start : start + chunk_size])
+        if start + chunk_size >= end:
+            break
         start += step
     return chunks
 
@@ -41,7 +46,7 @@ def chunk_documents(
     """
     chunks: list[dict] = []
     for doc in documents:
-        metadata = doc.get("metadata", {})
+        metadata = doc.get("metadata") or {}
         for index, chunk in enumerate(chunk_text(doc["text"], chunk_size, overlap)):
             chunks.append(
                 {
