@@ -56,11 +56,11 @@ def _get_client() -> cohere.AsyncClientV2:
     reraise=True,
 )
 async def _embed_one_batch(
-    client: cohere.AsyncClientV2, texts: list[str]
+    client: cohere.AsyncClientV2, texts: list[str], input_type: str
 ) -> list[list[float]]:
     response = await client.embed(
         model=_model,
-        input_type="search_document",
+        input_type=input_type,
         texts=texts,
         embedding_types=["float"],
     )
@@ -70,6 +70,7 @@ async def _embed_one_batch(
 async def embed_batch(
     texts: list[str],
     *,
+    input_type: str = "search_document",
     batch_size: int = BATCH_SIZE,
     max_concurrency: int = MAX_CONCURRENCY,
 ) -> list[list[float]]:
@@ -78,6 +79,11 @@ async def embed_batch(
     Texts are grouped into batches of ``batch_size`` which are then embedded
     concurrently (``asyncio.gather``) with at most ``max_concurrency`` requests
     in flight at any moment. Returns one vector per input text.
+
+    ``input_type`` lets callers distinguish how Cohere should treat the text:
+    "search_document" for corpus chunks (the default, used by ingestion) and
+    "search_query" for user queries at retrieval time. Cohere produces
+    different embeddings per input type, so mixing them hurts retrieval quality.
     """
     if not texts:
         return []
@@ -88,7 +94,7 @@ async def embed_batch(
 
     async def guarded(batch: list[str]) -> list[list[float]]:
         async with semaphore:
-            return await _embed_one_batch(client, batch)
+            return await _embed_one_batch(client, batch, input_type)
 
     per_batch = await asyncio.gather(*(guarded(batch) for batch in batches))
     return [vector for batch in per_batch for vector in batch]
