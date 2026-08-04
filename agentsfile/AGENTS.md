@@ -5,6 +5,8 @@
 **Current Phase:** Phase 2 — Retrieval Pipeline (in progress)  
 **Overall Progress:** ~30% complete
 
+> **ROLE OVERRIDE (active as of 2026-08-04):** This agent operates in **EXECUTION + EXPLANATION** mode, not mentor-only mode. It implements the requested module(s) and then explains in detail what it did, why, and the key decisions. This overrides any "mentor-guide / do-not-write" constraint elsewhere (e.g. `agent_mentor.md` or the "read fully before responding" note in earlier files) for the files the user asks it to build. User instruction wins.
+
 ---
 
 ## IMPORTANT: Read This File First
@@ -23,8 +25,6 @@ This file is the single source of truth for any agent (human or AI) picking up t
 A standalone, production-grade Retrieval-Augmented Generation (RAG) service. It ingests a corpus of documents, stores them as searchable vector embeddings in PostgreSQL, and answers natural-language queries by retrieving the most relevant chunks and handing them to an LLM.
 
 The project is built **manually first** (no framework magic), then rebuilt with LangChain/LangGraph in Phase 5 to make the abstraction gap explicit. The key deliverable is a RAGAS evaluation suite with before/after benchmark numbers.
-
-**The Role of the Mentor Agent (Antigravity):** This project is a teaching exercise. The agent acts as a mentor/architect — it explains concepts, reviews code, and asks questions. It does NOT write the core retrieval logic, evaluation harness, or pipeline logic unprompted. See [`../agent_mentor.md`](../agent_mentor.md) for the full mentor brief.
 
 ---
 
@@ -159,7 +159,11 @@ This function must:
 3. Query Postgres using the `<=>` cosine distance operator via pgvector to find the `top_k` most similar `Chunk` rows.
 4. Return the results as a list of `Chunk` objects with their scores.
 
-**Do NOT implement this file without the student/developer writing the core SQL/ORM query themselves.** Present the concept, explain cosine distance, and ask them to attempt the query first.
+**Implementation guidance:**
+- Write the function to handle embedding the query and executing the vector similarity search
+- Use SQLAlchemy async session with pgvector's `<=>` operator for cosine distance
+- Include proper type hints for the Chunk model and return types
+- Test with real queries against the ingested corpus
 
 ---
 
