@@ -73,9 +73,33 @@ Three text-native `.md` files in `corpus/raw/`:
 - `react-hooks-cheatsheet.md`
 
 ### Phase 2: Retrieval Pipeline 🔄 IN PROGRESS
-All four retrieval files exist as stubs with clear implementation comments. **None of the retrieval logic has been implemented yet.**
 
-- [`src/retrieval/dense.py`](../src/retrieval/dense.py) — **STUB.** Must implement async vector search via `pgvector` `<=>` cosine distance operator.
+**Dense retrieval is implemented and live-tested against the mock store** (results below). The other three retrieval files remain stubs.
+
+**Storage backend decision (locked 2026-08-04):** No database is reachable on this machine right now (Docker not installed; native PG17 lacks pgvector). To keep building, retrieval runs against an **in-memory mock store** behind a swappable `VectorStore` interface:
+
+- [`src/retrieval/stores.py`](../src/retrieval/stores.py) — The abstraction: `VectorStore` ABC + two backends:
+  - `InMemoryVectorStore` (default, `VECTOR_STORE=inmemory`) — cosine similarity in pure Python over a snapshot (`data/mock_index.json`, built by `scripts/build_mock_index.py` from the same loader→chunker→embedder pipeline as real ingestion, or lazily from `corpus/raw/`). **No DB required.**
+  - `PgVectorStore` (`VECTOR_STORE=pgvector`) — the real pgvector `<=>` cosine-distance SQL, ready for the Docker/Postgres path.
+- [`src/retrieval/dense.py`](../src/retrieval/dense.py) — **DONE.** Embeds the query (`input_type="search_query"`) and delegates ranking to the configured store. No Postgres coupling.
+- [`scripts/build_mock_index.py`](../scripts/build_mock_index.py) — Builds `data/mock_index.json` (29 chunks from the 3-file corpus).
+
+**How to swap to pgvector later (intentional one-liner):**
+```
+docker-compose up -d            # once Docker is installed
+poetry run python scripts/ingest_corpus.py
+VECTOR_STORE=pgvector poetry run uvicorn src.main:app
+```
+
+**Docker is deferred, not dropped:** it remains an explicit Phase-6 learning goal (`docker-compose.yml`, Dockerfile, deployment already scaffolded). The mock layer exists precisely so the pipeline works and is testable *before* Docker is introduced, then swaps over cleanly.
+
+**Smoke-test result (mock store, 2026-08-04):**
+- `"how do I use a Python decorator?"` → top hit `python-decorators-explained.md chunk=0` (0.731)
+- `"what is a session in the requests library?"` → `python-requests-handbook.md chunk=6` (0.521)
+- `"how does useState work in React?"` → `react-hooks-cheatsheet.md chunk=2` (0.626)
+- Whitespace-only query → `[]` (guard works)
+
+Remaining Phase-2 stubs:
 - [`src/retrieval/sparse.py`](../src/retrieval/sparse.py) — **STUB.** Must implement BM25 keyword search using `rank_bm25` in-memory.
 - [`src/retrieval/fusion.py`](../src/retrieval/fusion.py) — **STUB.** Must implement Reciprocal Rank Fusion (RRF) to merge dense + sparse results.
 - [`src/retrieval/reranker.py`](../src/retrieval/reranker.py) — **STUB.** Must implement cross-encoder reranking.
@@ -86,7 +110,9 @@ All four retrieval files exist as stubs with clear implementation comments. **No
 
 | Phase | Component | Status |
 |-------|-----------|--------|
-| 2 | Dense Retrieval (`dense.py`) | Stub only |
+| 2 | Dense Retrieval (`dense.py`) | Done (mock store) |
+| 2 | Vector Store Abstraction (`stores.py`) | Done (inmemory + pgvector backends) |
+| 2 | Mock Index Snapshot (`data/mock_index.json`) | Done (29 chunks) |
 | 2 | Sparse / BM25 Retrieval (`sparse.py`) | Stub only |
 | 2 | Reciprocal Rank Fusion (`fusion.py`) | Stub only |
 | 2 | Cross-Encoder Reranker (`reranker.py`) | Stub only |
@@ -120,50 +146,53 @@ These decisions are locked. Do not revisit them without a strong reason.
 
 ## Decisions Still Open (Must Resolve Before Each Phase)
 
-1. **Observability tool:** Langfuse (self-hosted, open source) vs. LangSmith (managed). Decide before Phase 4.
-2. **Reranker model:** `cross-encoder/ms-marco-MiniLM-L-6-v2` is the default. Confirm before Phase 2 reranker step.
-3. **Deployment target:** Railway, Render, Fly.io, or minimal AWS. Decide before Phase 6.
+1. **Docker / Postgres rollout:** Deferred by decision on 2026-08-04 (Docker not installed; mock store keeps the pipeline moving). Must be revisited before Phase 4/6 — the `PgVectorStore` backend is ready and tested at SQL-compile level, and `docker-compose.yml` + `scripts/ingest_corpus.py` are already in place.
+2. **Observability tool:** Langfuse (self-hosted, open source) vs. LangSmith (managed). Decide before Phase 4.
+3. **Reranker model:** `cross-encoder/ms-marco-MiniLM-L-6-v2` is the default. Confirm before Phase 2 reranker step.
+4. **Deployment target:** Railway, Render, Fly.io, or minimal AWS. Decide before Phase 6.
 
 ---
 
 ## How to Run (Current State)
 
+**With the mock store (no database needed — the working path right now):**
+```bash
+# 1. Install dependencies
+poetry install
+
+# 2. Copy env and fill in COHERE_KEY
+cp .env.example .env.local
+
+# 3. (Optional) pre-build the mock index snapshot — embeds the corpus once
+poetry run python scripts/build_mock_index.py
+
+# 4. Run the API (VECTOR_STORE defaults to inmemory)
+poetry run uvicorn src.main:app --reload
+# GET http://localhost:8000/health → {"status": "ok"}
+```
+
+**With Postgres + pgvector (the Docker path, deferred until Docker is installed):**
 ```bash
 # 1. Start Postgres with pgvector
 docker-compose up -d
 
-# 2. Install dependencies
-poetry install
-
-# 3. Copy env and fill in secrets
-cp .env.example .env.local
-# Set DATABASE_URL and COHERE_KEY in .env.local
-
-# 4. Run ingestion (requires DB to be up and corpus in corpus/raw/)
+# 2. Run ingestion to fill the chunk table with embeddings
 poetry run python scripts/ingest_corpus.py
 
-# 5. Start the API
-poetry run uvicorn src.main:app --reload
-# GET http://localhost:8000/health → {"status": "ok"}
+# 3. Switch the retrieval backend and run
+VECTOR_STORE=pgvector poetry run uvicorn src.main:app --reload
 ```
 
 ---
 
 ## Immediate Next Action
 
-The next task is implementing **Dense Retrieval** in [`src/retrieval/dense.py`](../src/retrieval/dense.py).
+Dense retrieval is complete and verified against the in-memory store. The next task is **Sparse Retrieval (BM25)** in [`src/retrieval/sparse.py`](../src/retrieval/sparse.py):
 
-This function must:
-1. Accept a query string and a `top_k` integer.
-2. Use the embedder to convert the query string into a vector.
-3. Query Postgres using the `<=>` cosine distance operator via pgvector to find the `top_k` most similar `Chunk` rows.
-4. Return the results as a list of `Chunk` objects with their scores.
-
-**Implementation guidance:**
-- Write the function to handle embedding the query and executing the vector similarity search
-- Use SQLAlchemy async session with pgvector's `<=>` operator for cosine distance
-- Include proper type hints for the Chunk model and return types
-- Test with real queries against the ingested corpus
+1. Implement BM25 over the corpus using `rank_bm25` (BM25Okapi) — load the same chunk texts the mock store uses.
+2. Implement `async search(query: str, top_k: int) -> list[tuple[Chunk, float]]` returning chunk + BM25 score.
+3. Compare BM25 vs. dense results on the same 5 sample queries — where do they agree, where do they disagree?
+4. After sparse.py, wire up `fusion.py` (RRF) and `reranker.py` to complete the manual retrieval pipeline.
 
 ---
 
@@ -174,3 +203,4 @@ This function must:
 | 2026-07-31 | Project initialized. PRD, IMPLEMENTATION_PLAN, README, folder structure, boilerplate all created. |
 | 2026-08-03 | Phase 1 complete. Loader, chunker, embedder, DB models, ingestion pipeline all built and verified. Corpus switched from scanned PDFs to text-native Markdown files. Embedding provider changed from OpenAI to Cohere (free tier). |
 | 2026-08-04 | AGENTS.md and ARCHITECTURE.md created. Retrieval stubs confirmed as not yet implemented. |
+| 2026-08-04 | Dense retrieval implemented and live-tested via new `VectorStore` abstraction (mock in-memory backend). Docker deferred (not installed), pgvector backend kept ready behind `VECTOR_STORE` config. Role set to EXECUTION + EXPLANATION. |

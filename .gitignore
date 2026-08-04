@@ -20,6 +20,9 @@ corpus/processed/
 # Eval results (commit selectively — large runs may be gitignored)
 # evaluation/results/
 
+# Generated mock index (rebuild with scripts/build_mock_index.py)
+data/
+
 # IDE
 .vscode/
 .idea/

@@ -20,6 +20,7 @@ class Settings(BaseSettings):
 
     # Database
     database_url: str
+    vector_store: str = "inmemory"  # inmemory | pgvector
 
     # Embedding
     embedding_provider: str = "cohere"
