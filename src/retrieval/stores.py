@@ -87,16 +87,9 @@ class InMemoryVectorStore(VectorStore):
     async def _ensure_loaded(self) -> None:
         if self._loaded:
             return
-        records = await _load_records()
+        records = await load_chunk_records()
         for r in records:
-            chunk = Chunk(
-                id=uuid.UUID(r["id"]),
-                document_id=uuid.UUID(r["document_id"]),
-                text=r["text"],
-                chunk_index=r["chunk_index"],
-                meta=r["metadata"],
-                embedding=r["embedding"],
-            )
+            chunk = _chunk_from_record(r)
             vec: list[float] = r["embedding"]
             self._items.append((chunk, vec))
             self._norms.append(_norm(vec))
@@ -188,6 +181,28 @@ async def _load_records() -> list[dict]:
             }
         )
     return records
+
+
+def _chunk_from_record(r: dict) -> Chunk:
+    """Build a Chunk from a mock-index record (shared by all stores)."""
+    return Chunk(
+        id=uuid.UUID(r["id"]),
+        document_id=uuid.UUID(r["document_id"]),
+        text=r["text"],
+        chunk_index=r["chunk_index"],
+        meta=r["metadata"],
+        embedding=r["embedding"],
+    )
+
+
+async def load_chunk_records() -> list[dict]:
+    """Public accessor so sparse retrieval can index the same chunk texts.
+
+    Reusing the same record source guarantees dense and sparse (and later RRF
+    fusion) operate on chunks with identical ``id`` values — the requirement
+    for merging result lists by chunk.
+    """
+    return await _load_records()
 
 
 _store: VectorStore | None = None

@@ -74,7 +74,7 @@ Three text-native `.md` files in `corpus/raw/`:
 
 ### Phase 2: Retrieval Pipeline 🔄 IN PROGRESS
 
-**Dense retrieval is implemented and live-tested against the mock store** (results below). The other three retrieval files remain stubs.
+**Dense retrieval is implemented and live-tested against the mock store** (results below). **BM25 sparse retrieval is also implemented and compared.** The remaining two retrieval files (fusion, reranker) are stubs.
 
 **Storage backend decision (locked 2026-08-04):** No database is reachable on this machine right now (Docker not installed; native PG17 lacks pgvector). To keep building, retrieval runs against an **in-memory mock store** behind a swappable `VectorStore` interface:
 
@@ -82,6 +82,7 @@ Three text-native `.md` files in `corpus/raw/`:
   - `InMemoryVectorStore` (default, `VECTOR_STORE=inmemory`) — cosine similarity in pure Python over a snapshot (`data/mock_index.json`, built by `scripts/build_mock_index.py` from the same loader→chunker→embedder pipeline as real ingestion, or lazily from `corpus/raw/`). **No DB required.**
   - `PgVectorStore` (`VECTOR_STORE=pgvector`) — the real pgvector `<=>` cosine-distance SQL, ready for the Docker/Postgres path.
 - [`src/retrieval/dense.py`](../src/retrieval/dense.py) — **DONE.** Embeds the query (`input_type="search_query"`) and delegates ranking to the configured store. No Postgres coupling.
+- [`src/retrieval/sparse.py`](../src/retrieval/sparse.py) — **DONE.** BM25 (Okapi) over the same chunk records as dense (shared ids via `stores.load_chunk_records()`), so RRF can merge by chunk id. Tokenizer is a lowercase alphanumeric split.
 - [`scripts/build_mock_index.py`](../scripts/build_mock_index.py) — Builds `data/mock_index.json` (29 chunks from the 3-file corpus).
 
 **How to swap to pgvector later (intentional one-liner):**
@@ -100,7 +101,6 @@ VECTOR_STORE=pgvector poetry run uvicorn src.main:app
 - Whitespace-only query → `[]` (guard works)
 
 Remaining Phase-2 stubs:
-- [`src/retrieval/sparse.py`](../src/retrieval/sparse.py) — **STUB.** Must implement BM25 keyword search using `rank_bm25` in-memory.
 - [`src/retrieval/fusion.py`](../src/retrieval/fusion.py) — **STUB.** Must implement Reciprocal Rank Fusion (RRF) to merge dense + sparse results.
 - [`src/retrieval/reranker.py`](../src/retrieval/reranker.py) — **STUB.** Must implement cross-encoder reranking.
 
@@ -113,7 +113,7 @@ Remaining Phase-2 stubs:
 | 2 | Dense Retrieval (`dense.py`) | Done (mock store) |
 | 2 | Vector Store Abstraction (`stores.py`) | Done (inmemory + pgvector backends) |
 | 2 | Mock Index Snapshot (`data/mock_index.json`) | Done (29 chunks) |
-| 2 | Sparse / BM25 Retrieval (`sparse.py`) | Stub only |
+| 2 | Sparse / BM25 Retrieval (`sparse.py`) | Done |
 | 2 | Reciprocal Rank Fusion (`fusion.py`) | Stub only |
 | 2 | Cross-Encoder Reranker (`reranker.py`) | Stub only |
 | 2 | Prompt Builder (`generation/prompt_builder.py`) | Stub only |
@@ -187,12 +187,12 @@ VECTOR_STORE=pgvector poetry run uvicorn src.main:app --reload
 
 ## Immediate Next Action
 
-Dense retrieval is complete and verified against the in-memory store. The next task is **Sparse Retrieval (BM25)** in [`src/retrieval/sparse.py`](../src/retrieval/sparse.py):
+Dense and sparse retrieval are complete and verified. The next task is **Reciprocal Rank Fusion (RRF)** in [`src/retrieval/fusion.py`](../src/retrieval/fusion.py):
 
-1. Implement BM25 over the corpus using `rank_bm25` (BM25Okapi) — load the same chunk texts the mock store uses.
-2. Implement `async search(query: str, top_k: int) -> list[tuple[Chunk, float]]` returning chunk + BM25 score.
-3. Compare BM25 vs. dense results on the same 5 sample queries — where do they agree, where do they disagree?
-4. After sparse.py, wire up `fusion.py` (RRF) and `reranker.py` to complete the manual retrieval pipeline.
+1. Implement `async fuse(dense_results, sparse_results, k=60) -> list[tuple[Chunk, float]]`.
+2. Formula: `score(d) = sum over each list of 1 / (k + rank(d))`, where rank is 1-indexed position; merge by chunk id.
+3. Merge same-ids across both lists; documents present in only one list still score via that list alone.
+4. After fusion, implement `reranker.py` (cross-encoder) to complete the manual retrieval pipeline.
 
 ---
 
@@ -204,3 +204,4 @@ Dense retrieval is complete and verified against the in-memory store. The next t
 | 2026-08-03 | Phase 1 complete. Loader, chunker, embedder, DB models, ingestion pipeline all built and verified. Corpus switched from scanned PDFs to text-native Markdown files. Embedding provider changed from OpenAI to Cohere (free tier). |
 | 2026-08-04 | AGENTS.md and ARCHITECTURE.md created. Retrieval stubs confirmed as not yet implemented. |
 | 2026-08-04 | Dense retrieval implemented and live-tested via new `VectorStore` abstraction (mock in-memory backend). Docker deferred (not installed), pgvector backend kept ready behind `VECTOR_STORE` config. Role set to EXECUTION + EXPLANATION. |
+| 2026-08-04 | BM25 sparse retrieval implemented and compared against dense. Dense won on all 4 natural-language test queries; BM25 noise at 29-chunk corpus demonstrates why RRF hybrid retrieval matters. `rank-bm25` installed. |
