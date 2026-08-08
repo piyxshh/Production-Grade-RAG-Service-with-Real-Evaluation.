@@ -28,8 +28,15 @@ class Settings(BaseSettings):
     cohere_model: str = "embed-english-v3.0"
 
     # LLM
-    llm_provider: str = "openai"
-    llm_model: str = "gpt-4o-mini"
+    llm_provider: str = "groq"
+    llm_model: str = "llama-3.1-8b-instant"
+    groq_api_key: str = ""
+    groq_model: str = "llama-3.1-8b-instant"
+    openai_api_key: str = ""
+
+    # Retrieval & Ranking
+    rrf_k: int = 60
+    cross_encoder_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
     # Observability
     observability_provider: str = "none"
