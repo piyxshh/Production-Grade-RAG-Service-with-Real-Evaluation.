@@ -1,13 +1,69 @@
-﻿# [YOU IMPLEMENT] POST /query
-# This route receives a question, runs it through the RAG pipeline,
-# and returns a grounded answer with source citations.
-#
-# Wire this up AFTER you have src/pipeline/manual.py working end-to-end.
-from fastapi import APIRouter
+"""Query endpoint: receives natural language questions and returns grounded RAG answers with citations."""
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel, Field
+
+from src.pipeline.manual import run_manual_rag_pipeline
 
 router = APIRouter()
 
-@router.post("")
-async def query_rag(payload: dict):
-    # TODO: call the pipeline and return the result
-    raise NotImplementedError("Implement the query pipeline first")
+
+class SourceItem(BaseModel):
+    document_id: str | None = None
+    chunk_id: str | None = None
+    title: str
+    filename: str
+    chunk_index: int
+    snippet: str
+
+
+class RetrievalStats(BaseModel):
+    dense_count: int
+    sparse_count: int
+    fused_count: int
+    reranked_count: int
+
+
+class QueryRequest(BaseModel):
+    question: str = Field(
+        ...,
+        min_length=1,
+        description="The natural language question to ask the RAG service.",
+        examples=["How do I write a Python decorator with arguments?"],
+    )
+    top_k: int = Field(
+        default=5,
+        ge=1,
+        le=50,
+        description="Number of candidate chunks to fetch per retriever (dense and sparse).",
+    )
+    top_n: int = Field(
+        default=3,
+        ge=1,
+        le=20,
+        description="Number of top chunks to retain after cross-encoder reranking.",
+    )
+
+
+class QueryResponse(BaseModel):
+    question: str
+    answer: str
+    sources: list[SourceItem]
+    retrieval_stats: RetrievalStats
+
+
+@router.post("", response_model=QueryResponse)
+async def query_rag(payload: QueryRequest) -> QueryResponse:
+    """Execute hybrid retrieval, cross-encoder reranking, and grounded answer generation."""
+    try:
+        result = await run_manual_rag_pipeline(
+            query=payload.question,
+            top_k_retrieval=payload.top_k,
+            top_n_rerank=payload.top_n,
+        )
+        return QueryResponse(**result)
+    except Exception as err:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error executing RAG pipeline: {err}",
+        )
+
