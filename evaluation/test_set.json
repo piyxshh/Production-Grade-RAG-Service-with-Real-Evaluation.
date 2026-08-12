@@ -1,1 +1,452 @@
-﻿[]
+[
+  {
+    "id": "q01",
+    "category": "direct_factual",
+    "question": "In what version of React were hooks introduced?",
+    "ground_truth_answer": "React hooks were introduced in React 16.8 to use state and other React features without writing a class.",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["647698c0-d07b-59cc-bbc3-1e4463eb84e2"],
+    "relevant_chunk_indices": [0]
+  },
+  {
+    "id": "q02",
+    "category": "direct_factual",
+    "question": "What function from functools is used to preserve a decorated function's name and docstring?",
+    "ground_truth_answer": "functools.wraps is used as a decorator on the wrapper function to preserve original function metadata.",
+    "relevant_docs": ["python-decorators-explained.md"],
+    "relevant_chunk_ids": ["faee9538-2a47-51db-8f29-30c22dfee0be", "e49dfac8-a756-5fbf-a16f-ed7eb7273438"],
+    "relevant_chunk_indices": [1, 2]
+  },
+  {
+    "id": "q03",
+    "category": "direct_factual",
+    "question": "What method on a requests Response object parses a JSON body?",
+    "ground_truth_answer": "The .json() method on the response object (r.json()) parses JSON response content into a Python dictionary.",
+    "relevant_docs": ["python-requests-handbook.md"],
+    "relevant_chunk_ids": ["cff3ceac-362c-5bbc-9ab2-e1fc12b7e6a5"],
+    "relevant_chunk_indices": [1]
+  },
+  {
+    "id": "q04",
+    "category": "direct_factual",
+    "question": "What is the recommended timeout setting practice in requests?",
+    "ground_truth_answer": "Always set a timeout parameter (e.g. timeout=5) on every request to prevent requests from hanging indefinitely.",
+    "relevant_docs": ["python-requests-handbook.md"],
+    "relevant_chunk_ids": ["5d2caf74-7157-5818-ba80-788cee723fde"],
+    "relevant_chunk_indices": [4]
+  },
+  {
+    "id": "q05",
+    "category": "direct_factual",
+    "question": "What are the two fundamental rules of React hooks?",
+    "ground_truth_answer": "1. Only call hooks at the top level of your component (not in loops, conditions, or nested functions). 2. Only call hooks from React functions (components or custom hooks).",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["4fbf2b0b-dd39-542d-80c3-e65efe0665af"],
+    "relevant_chunk_indices": [1]
+  },
+  {
+    "id": "q06",
+    "category": "direct_factual",
+    "question": "How does requests handle HTTP 404 responses by default?",
+    "ground_truth_answer": "Requests does not raise an exception on 404; it returns a Response object with status_code 404. Use raise_for_status() to raise an HTTPError on 4xx/5xx codes.",
+    "relevant_docs": ["python-requests-handbook.md"],
+    "relevant_chunk_ids": ["c6d1b57c-2795-5ca2-8451-28d282c3c7a6"],
+    "relevant_chunk_indices": [6]
+  },
+  {
+    "id": "q07",
+    "category": "direct_factual",
+    "question": "Which React hook creates a mutable reference that persists across renders without triggering a re-render?",
+    "ground_truth_answer": "useRef creates a mutable ref box whose .current property can be updated without triggering component re-renders.",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["fd4bd239-1419-5bf2-ae96-ad3dbf961c3d", "e6161d98-dea0-5836-8328-4d40ed488b25"],
+    "relevant_chunk_indices": [4, 10]
+  },
+  {
+    "id": "q08",
+    "category": "direct_factual",
+    "question": "In what order are stacked decorators evaluated and applied?",
+    "ground_truth_answer": "Stacked decorators apply from the bottom up. The bottom decorator wraps the function first, and the top decorator wraps the result.",
+    "relevant_docs": ["python-decorators-explained.md"],
+    "relevant_chunk_ids": ["62a89499-ea7a-572b-be64-1a9d947621f6"],
+    "relevant_chunk_indices": [6]
+  },
+  {
+    "id": "q09",
+    "category": "direct_factual",
+    "question": "What parameter is used in requests.post to send a JSON payload automatically?",
+    "ground_truth_answer": "The json= parameter (e.g. requests.post(url, json={'key': 'val'})) is used to send JSON payloads with the correct Content-Type header.",
+    "relevant_docs": ["python-requests-handbook.md"],
+    "relevant_chunk_ids": ["66265efb-bd64-5737-a6fd-d5fa1cb944a3"],
+    "relevant_chunk_indices": [3]
+  },
+  {
+    "id": "q10",
+    "category": "direct_factual",
+    "question": "What built-in decorator from functools is used for memoization caching?",
+    "ground_truth_answer": "functools.lru_cache (e.g. @lru_cache(maxsize=128)) is the standard library decorator for memoizing function return values.",
+    "relevant_docs": ["python-decorators-explained.md"],
+    "relevant_chunk_ids": ["9b57aabd-0b49-5259-a5f4-e637ca63c530"],
+    "relevant_chunk_indices": [5]
+  },
+  {
+    "id": "q11",
+    "category": "direct_factual",
+    "question": "What naming convention must all custom React hooks follow?",
+    "ground_truth_answer": "Custom hooks must start with the prefix 'use' (e.g., useLocalStorage) so React and lint tools recognize them as hooks.",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["367c7220-033a-5f10-a44a-ce4ba72004b5"],
+    "relevant_chunk_indices": [6]
+  },
+  {
+    "id": "q12",
+    "category": "direct_factual",
+    "question": "How do you disable automatic redirect following in requests?",
+    "ground_truth_answer": "Pass allow_redirects=False to the request method (e.g., requests.get(url, allow_redirects=False)).",
+    "relevant_docs": ["python-requests-handbook.md"],
+    "relevant_chunk_ids": ["3e81d4b1-035b-5202-b7a0-784682ad3def"],
+    "relevant_chunk_indices": [7]
+  },
+  {
+    "id": "q13",
+    "category": "direct_factual",
+    "question": "Can Python decorators be applied to classes in addition to functions?",
+    "ground_truth_answer": "Yes, decorators can be applied to classes because classes are callable in Python; a class decorator takes a class and returns a modified class.",
+    "relevant_docs": ["python-decorators-explained.md"],
+    "relevant_chunk_ids": ["246510ff-b563-5d3e-b279-0bff6073b760"],
+    "relevant_chunk_indices": [7]
+  },
+  {
+    "id": "q14",
+    "category": "direct_factual",
+    "question": "What is the effect of providing an empty dependency array [] to useEffect?",
+    "ground_truth_answer": "An empty dependency array [] causes useEffect to execute exactly once when the component mounts.",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["cfa97079-2302-5463-9be3-54fb0118bdfc"],
+    "relevant_chunk_indices": [3]
+  },
+  {
+    "id": "q15",
+    "category": "multi_chunk",
+    "question": "How do you write a parameterized decorator that accepts arguments and preserves function metadata?",
+    "ground_truth_answer": "You write a 3-layer closure: an outer function that accepts the decorator arguments and returns the decorator, which takes func and applies @wraps(func) on the inner wrapper function.",
+    "relevant_docs": ["python-decorators-explained.md"],
+    "relevant_chunk_ids": ["e49dfac8-a756-5fbf-a16f-ed7eb7273438", "b189f190-f5fb-5f81-a4a0-f7118808c24c"],
+    "relevant_chunk_indices": [2, 3]
+  },
+  {
+    "id": "q16",
+    "category": "multi_chunk",
+    "question": "How do requests Sessions manage cookies and connection pooling across multiple HTTP requests?",
+    "ground_truth_answer": "A requests.Session() object automatically persists cookies across requests (e.g. from /login to /dashboard) and reuses the underlying TCP connection for faster performance.",
+    "relevant_docs": ["python-requests-handbook.md"],
+    "relevant_chunk_ids": ["994d2ba5-e830-50b4-8749-ce8691ee0af6", "3e81d4b1-035b-5202-b7a0-784682ad3def"],
+    "relevant_chunk_indices": [5, 7]
+  },
+  {
+    "id": "q17",
+    "category": "multi_chunk",
+    "question": "How do you build a custom useLocalStorage hook combining useState and useEffect in React?",
+    "ground_truth_answer": "Initialize useState with a lazy function reading from localStorage.getItem(key), and use useEffect to write localStorage.setItem(key, value) whenever key or value changes, returning [value, setValue].",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["367c7220-033a-5f10-a44a-ce4ba72004b5", "01165e56-33e6-5b94-bb3f-644de8d12950"],
+    "relevant_chunk_indices": [6, 7]
+  },
+  {
+    "id": "q18",
+    "category": "multi_chunk",
+    "question": "How is a retry decorator with exponential backoff implemented in Python?",
+    "ground_truth_answer": "The retry decorator accepts times and delay parameters, loops for attempt in range(times), tries executing func, catches exceptions, and sleeps with exponential backoff (e.g., 2 ** attempt) before re-raising on the final attempt.",
+    "relevant_docs": ["python-decorators-explained.md", "python-requests-handbook.md"],
+    "relevant_chunk_ids": ["9b57aabd-0b49-5259-a5f4-e637ca63c530", "c6d1b57c-2795-5ca2-8451-28d282c3c7a6"],
+    "relevant_chunk_indices": [5, 6]
+  },
+  {
+    "id": "q19",
+    "category": "multi_chunk",
+    "question": "How do you handle interval timers in React useEffect and ensure cleanup on component unmount?",
+    "ground_truth_answer": "Inside useEffect, instantiate setInterval and return an arrow cleanup function () => clearInterval(id) with an empty dependency array [] to clear the timer on unmount and prevent memory leaks.",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["cfa97079-2302-5463-9be3-54fb0118bdfc", "22236905-098f-592a-b7cf-cd9445ea3761"],
+    "relevant_chunk_indices": [3, 9]
+  },
+  {
+    "id": "q20",
+    "category": "multi_chunk",
+    "question": "How do query parameters and custom authorization headers differ in requests syntax?",
+    "ground_truth_answer": "Query parameters are passed via the params={'q': 'python'} dictionary to be URL-encoded in the query string, while headers are passed via headers={'Authorization': 'Bearer ...'} or auth=HTTPBasicAuth('user', 'pass').",
+    "relevant_docs": ["python-requests-handbook.md"],
+    "relevant_chunk_ids": ["c237a442-d325-56f7-8991-ac6e92d5e2d5", "66265efb-bd64-5737-a6fd-d5fa1cb944a3"],
+    "relevant_chunk_indices": [2, 3]
+  },
+  {
+    "id": "q21",
+    "category": "multi_chunk",
+    "question": "How does useReducer manage state transitions compared to multiple useState calls?",
+    "ground_truth_answer": "useReducer uses a reducer function receiving (state, action) and returning new state based on action.type, handling complex multi-action transitions with dispatch({type: '...'}) like Redux-lite.",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["e4b97b8f-4669-5f11-82d2-b4ea79169af0", "f82393bc-709b-56c2-9099-0da2b1049b21"],
+    "relevant_chunk_indices": [2, 8]
+  },
+  {
+    "id": "q22",
+    "category": "multi_chunk",
+    "question": "What issues occur when decorating functions without @wraps, and what does @wraps actually do?",
+    "ground_truth_answer": "Without @wraps, the decorated function loses its original __name__ and docstring, causing help(func) to show 'wrapper'. @wraps copies the original function's metadata to the wrapper function.",
+    "relevant_docs": ["python-decorators-explained.md"],
+    "relevant_chunk_ids": ["faee9538-2a47-51db-8f29-30c22dfee0be", "e49dfac8-a756-5fbf-a16f-ed7eb7273438"],
+    "relevant_chunk_indices": [1, 2]
+  },
+  {
+    "id": "q23",
+    "category": "multi_chunk",
+    "question": "What common mistakes with React hooks lead to stale closures, memory leaks, or infinite loops?",
+    "ground_truth_answer": "Forgetting interval cleanup functions causes memory leaks, passing empty deps [] while referencing mutable props causes stale closures, and calling setState directly in render causes infinite loops.",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["cfa97079-2302-5463-9be3-54fb0118bdfc", "22236905-098f-592a-b7cf-cd9445ea3761"],
+    "relevant_chunk_indices": [3, 9]
+  },
+  {
+    "id": "q24",
+    "category": "multi_chunk",
+    "question": "How does basic authentication work in requests, and what are the two syntax options?",
+    "ground_truth_answer": "You can use auth=HTTPBasicAuth('user', 'pass') from requests.auth, or pass a plain tuple auth=('user', 'pass') directly to requests.get().",
+    "relevant_docs": ["python-requests-handbook.md"],
+    "relevant_chunk_ids": ["66265efb-bd64-5737-a6fd-d5fa1cb944a3"],
+    "relevant_chunk_indices": [3]
+  },
+  {
+    "id": "q25",
+    "category": "conceptual_synthesis",
+    "question": "Why is calling React hooks inside loops or conditional statements forbidden by Rule 1?",
+    "ground_truth_answer": "React relies on the exact order in which hooks are called on every render to map state to the correct hook instance. Conditions or loops change call order and corrupt state mapping.",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["4fbf2b0b-dd39-542d-80c3-e65efe0665af"],
+    "relevant_chunk_indices": [1]
+  },
+  {
+    "id": "q26",
+    "category": "conceptual_synthesis",
+    "question": "Why should query parameters be passed via params dictionary in requests rather than hardcoding in the URL string?",
+    "ground_truth_answer": "Passing a dictionary to params automatically URL-encodes special characters and query delimiters, preventing malformed URLs and manual encoding bugs.",
+    "relevant_docs": ["python-requests-handbook.md"],
+    "relevant_chunk_ids": ["c237a442-d325-56f7-8991-ac6e92d5e2d5"],
+    "relevant_chunk_indices": [2]
+  },
+  {
+    "id": "q27",
+    "category": "conceptual_synthesis",
+    "question": "What is the core syntactic equivalence of the @decorator syntax in Python?",
+    "ground_truth_answer": "The @decorator syntax on def func(): is strictly syntactic sugar for func = decorator(func).",
+    "relevant_docs": ["python-decorators-explained.md"],
+    "relevant_chunk_ids": ["faee9538-2a47-51db-8f29-30c22dfee0be"],
+    "relevant_chunk_indices": [1]
+  },
+  {
+    "id": "q28",
+    "category": "conceptual_synthesis",
+    "question": "Why is using useMemo on trivial computations considered premature optimization?",
+    "ground_truth_answer": "useMemo has overhead for storing dependency arrays and executing comparison checks on every render. If the computation is trivial, useMemo is slower and adds unnecessary code complexity.",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["caba410d-dafb-5327-8ffb-c9adaa37182a", "22236905-098f-592a-b7cf-cd9445ea3761"],
+    "relevant_chunk_indices": [5, 9]
+  },
+  {
+    "id": "q29",
+    "category": "conceptual_synthesis",
+    "question": "Why is omitting timeout in requests calls considered a major cause of hanging scripts?",
+    "ground_truth_answer": "Without an explicit timeout, requests will wait indefinitely on socket connections if the remote server drops packets or hangs, freezing the entire script.",
+    "relevant_docs": ["python-requests-handbook.md"],
+    "relevant_chunk_ids": ["5d2caf74-7157-5818-ba80-788cee723fde"],
+    "relevant_chunk_indices": [4]
+  },
+  {
+    "id": "q30",
+    "category": "conceptual_synthesis",
+    "question": "What is the difference between useCallback and useMemo in terms of what they cache?",
+    "ground_truth_answer": "useMemo caches the calculated return value of a function, while useCallback caches the function definition instance itself to maintain reference equality across renders.",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["caba410d-dafb-5327-8ffb-c9adaa37182a", "367c7220-033a-5f10-a44a-ce4ba72004b5"],
+    "relevant_chunk_indices": [5, 6]
+  },
+  {
+    "id": "q31",
+    "category": "conceptual_synthesis",
+    "question": "When should you avoid using Python decorators according to clean architecture guidelines?",
+    "ground_truth_answer": "Avoid decorators when the decorator is more complex than the function it decorates, when excessive stacking creates unreadable debug stacks, or for one-off single-use modifications.",
+    "relevant_docs": ["python-decorators-explained.md"],
+    "relevant_chunk_ids": ["62a89499-ea7a-572b-be64-1a9d947621f6"],
+    "relevant_chunk_indices": [6]
+  },
+  {
+    "id": "q32",
+    "category": "conceptual_synthesis",
+    "question": "Why is the functional state update setCount(prev => prev + 1) safer than setCount(count + 1)?",
+    "ground_truth_answer": "State setters are asynchronous; multiple sequential setCount(count + 1) calls in the same event loop can read stale closure values, whereas prev => prev + 1 receives the latest pending state.",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["e4b97b8f-4669-5f11-82d2-b4ea79169af0"],
+    "relevant_chunk_indices": [2]
+  },
+  {
+    "id": "q33",
+    "category": "conceptual_synthesis",
+    "question": "Why does a timing decorator need start = time.perf_counter() before and after func(*args, **kwargs)?",
+    "ground_truth_answer": "To capture the high-resolution elapsed time solely during the execution of the wrapped function before returning the computed result.",
+    "relevant_docs": ["python-decorators-explained.md"],
+    "relevant_chunk_ids": ["b189f190-f5fb-5f81-a4a0-f7118808c24c", "7c4e4426-4c5c-55e3-8107-b1ccbd548572"],
+    "relevant_chunk_indices": [3, 4]
+  },
+  {
+    "id": "q34",
+    "category": "conceptual_synthesis",
+    "question": "Why does useContext require a Provider ancestor component in the React component tree?",
+    "ground_truth_answer": "useContext reads the current context value provided by the nearest matching <ThemeContext.Provider value={...}> above it in the tree; without a provider, it falls back to the default value.",
+    "relevant_docs": ["react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["367c7220-033a-5f10-a44a-ce4ba72004b5"],
+    "relevant_chunk_indices": [6]
+  },
+  {
+    "id": "q35",
+    "category": "cross_document",
+    "question": "How does memoization with Python's @lru_cache compare to React's useMemo hook?",
+    "ground_truth_answer": "Python's @lru_cache memoizes function output across function calls based on argument hashes, whereas React's useMemo memoizes computed values across component re-renders based on a dependency array.",
+    "relevant_docs": ["python-decorators-explained.md", "react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["9b57aabd-0b49-5259-a5f4-e637ca63c530", "caba410d-dafb-5327-8ffb-c9adaa37182a"],
+    "relevant_chunk_indices": [5, 5]
+  },
+  {
+    "id": "q36",
+    "category": "cross_document",
+    "question": "Compare implementing retry loops directly with requests vs writing a reusable retry decorator in Python.",
+    "ground_truth_answer": "In requests, a retry loop is written imperatively around requests.get with time.sleep; a retry decorator abstracts this retry logic into a reusable higher-order function that can wrap any callable.",
+    "relevant_docs": ["python-requests-handbook.md", "python-decorators-explained.md"],
+    "relevant_chunk_ids": ["c6d1b57c-2795-5ca2-8451-28d282c3c7a6", "9b57aabd-0b49-5259-a5f4-e637ca63c530"],
+    "relevant_chunk_indices": [6, 5]
+  },
+  {
+    "id": "q37",
+    "category": "cross_document",
+    "question": "How does timeout management in requests compare to interval timer cleanup in React useEffect?",
+    "ground_truth_answer": "Requests uses timeout to stop blocking I/O calls after N seconds, while React's useEffect uses clearInterval in its cleanup return function to terminate active background browser timers on unmount.",
+    "relevant_docs": ["python-requests-handbook.md", "react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["5d2caf74-7157-5818-ba80-788cee723fde", "cfa97079-2302-5463-9be3-54fb0118bdfc"],
+    "relevant_chunk_indices": [4, 3]
+  },
+  {
+    "id": "q38",
+    "category": "cross_document",
+    "question": "Compare error propagation via r.raise_for_status() in requests with throwing errors in useReducer.",
+    "ground_truth_answer": "In requests, raise_for_status() explicitly triggers HTTPError exceptions for 4xx/5xx responses; in useReducer, default: throw new Error('unknown action') ensures unrecognized dispatched actions fail fast.",
+    "relevant_docs": ["python-requests-handbook.md", "react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["c6d1b57c-2795-5ca2-8451-28d282c3c7a6", "f82393bc-709b-56c2-9099-0da2b1049b21"],
+    "relevant_chunk_indices": [6, 8]
+  },
+  {
+    "id": "q39",
+    "category": "cross_document",
+    "question": "How do higher-order decorator wrappers in Python relate to custom hook wrappers in React?",
+    "ground_truth_answer": "Python decorator wrappers intercept function execution to inject behavior (timing, caching, auth), while custom React hooks wrap primitive hooks (useState, useEffect) to encapsulate and share reactive lifecycle state.",
+    "relevant_docs": ["python-decorators-explained.md", "react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["bd429892-f723-5819-9de8-b9d02f325993", "367c7220-033a-5f10-a44a-ce4ba72004b5"],
+    "relevant_chunk_indices": [0, 6]
+  },
+  {
+    "id": "q40",
+    "category": "cross_document",
+    "question": "Compare managing persistent state with requests.Session() and React's useRef hook.",
+    "ground_truth_answer": "requests.Session persists cookies and TCP connections across multiple network requests, while useRef persists mutable client-side JavaScript values across component render cycles without triggering re-renders.",
+    "relevant_docs": ["python-requests-handbook.md", "react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["994d2ba5-e830-50b4-8749-ce8691ee0af6", "fd4bd239-1419-5bf2-ae96-ad3dbf961c3d"],
+    "relevant_chunk_indices": [5, 4]
+  },
+  {
+    "id": "q41",
+    "category": "cross_document",
+    "question": "How does setting custom headers in requests compare to using React context for app-wide configuration?",
+    "ground_truth_answer": "requests passes authentication tokens or custom headers per HTTP request in a headers dictionary, whereas React uses useContext to distribute shared state or configuration down the component tree.",
+    "relevant_docs": ["python-requests-handbook.md", "react-hooks-cheatsheet.md"],
+    "relevant_chunk_ids": ["66265efb-bd64-5737-a6fd-d5fa1cb944a3", "367c7220-033a-5f10-a44a-ce4ba72004b5"],
+    "relevant_chunk_indices": [3, 6]
+  },
+  {
+    "id": "q42",
+    "category": "cross_document",
+    "question": "Compare functional state transformation in React (reducer pattern) with Python functions passed as arguments to decorators.",
+    "ground_truth_answer": "Both leverage first-class functions: React useReducer passes pure reducer functions to transform (state, action) -> new state, while Python decorators treat functions as first-class objects to transform func -> wrapper.",
+    "relevant_docs": ["react-hooks-cheatsheet.md", "python-decorators-explained.md"],
+    "relevant_chunk_ids": ["f82393bc-709b-56c2-9099-0da2b1049b21", "bd429892-f723-5819-9de8-b9d02f325993"],
+    "relevant_chunk_indices": [8, 0]
+  },
+  {
+    "id": "q43",
+    "category": "unanswerable_out_of_corpus",
+    "question": "How do you configure a Redis cluster for distributed rate limiting in Go?",
+    "ground_truth_answer": null,
+    "relevant_docs": [],
+    "relevant_chunk_ids": [],
+    "relevant_chunk_indices": []
+  },
+  {
+    "id": "q44",
+    "category": "unanswerable_out_of_corpus",
+    "question": "What is the syntax for Docker multi-stage builds in Python 3.12?",
+    "ground_truth_answer": null,
+    "relevant_docs": [],
+    "relevant_chunk_ids": [],
+    "relevant_chunk_indices": []
+  },
+  {
+    "id": "q45",
+    "category": "unanswerable_out_of_corpus",
+    "question": "How do you deploy an AWS EKS Kubernetes cluster using Terraform scripts?",
+    "ground_truth_answer": null,
+    "relevant_docs": [],
+    "relevant_chunk_ids": [],
+    "relevant_chunk_indices": []
+  },
+  {
+    "id": "q46",
+    "category": "unanswerable_out_of_corpus",
+    "question": "How do you configure WebSockets with Socket.io on an Express Node.js backend?",
+    "ground_truth_answer": null,
+    "relevant_docs": [],
+    "relevant_chunk_ids": [],
+    "relevant_chunk_indices": []
+  },
+  {
+    "id": "q47",
+    "category": "unanswerable_out_of_corpus",
+    "question": "What is the SQL syntax for creating a pgvector HNSW index in PostgreSQL 16?",
+    "ground_truth_answer": null,
+    "relevant_docs": [],
+    "relevant_chunk_ids": [],
+    "relevant_chunk_indices": []
+  },
+  {
+    "id": "q48",
+    "category": "unanswerable_out_of_corpus",
+    "question": "How does LangGraph implement cyclic state graphs with conditional edges?",
+    "ground_truth_answer": null,
+    "relevant_docs": [],
+    "relevant_chunk_ids": [],
+    "relevant_chunk_indices": []
+  },
+  {
+    "id": "q49",
+    "category": "unanswerable_out_of_corpus",
+    "question": "What are the new language features in Python 3.13 free-threaded nogil builds?",
+    "ground_truth_answer": null,
+    "relevant_docs": [],
+    "relevant_chunk_ids": [],
+    "relevant_chunk_indices": []
+  },
+  {
+    "id": "q50",
+    "category": "unanswerable_out_of_corpus",
+    "question": "How do you configure GraphQL subscriptions with Apollo Server and WebSockets?",
+    "ground_truth_answer": null,
+    "relevant_docs": [],
+    "relevant_chunk_ids": [],
+    "relevant_chunk_indices": []
+  }
+]
