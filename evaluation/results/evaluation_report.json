@@ -1,0 +1,3830 @@
+{
+  "metadata": {
+    "test_set_size": 50,
+    "categories": {
+      "direct_factual": 14,
+      "multi_chunk": 10,
+      "conceptual_synthesis": 10,
+      "cross_document": 8,
+      "unanswerable_out_of_corpus": 8
+    }
+  },
+  "retrieval_ablation": {
+    "Dense Only": {
+      "HitRate@1": 0.6666666666666666,
+      "HitRate@3": 0.9523809523809523,
+      "HitRate@5": 1.0,
+      "Recall@1": 0.5,
+      "Recall@3": 0.8452380952380952,
+      "Recall@5": 0.9047619047619048,
+      "MRR": 0.8162698412698413,
+      "NDCG@3": 0.7725399789813212,
+      "NDCG@5": 0.799972997199155
+    },
+    "BM25 Only": {
+      "HitRate@1": 0.5238095238095238,
+      "HitRate@3": 0.8809523809523809,
+      "HitRate@5": 0.9285714285714286,
+      "Recall@1": 0.40476190476190477,
+      "Recall@3": 0.6666666666666666,
+      "Recall@5": 0.75,
+      "MRR": 0.7023809523809523,
+      "NDCG@3": 0.6070021510988968,
+      "NDCG@5": 0.6474134927972243
+    },
+    "Hybrid (Dense+BM25+RRF)": {
+      "HitRate@1": 0.6904761904761905,
+      "HitRate@3": 0.9047619047619048,
+      "HitRate@5": 0.9523809523809523,
+      "Recall@1": 0.5119047619047619,
+      "Recall@3": 0.75,
+      "Recall@5": 0.8333333333333334,
+      "MRR": 0.7936507936507935,
+      "NDCG@3": 0.7102579710655164,
+      "NDCG@5": 0.7493897694398776
+    },
+    "Hybrid + Cross-Encoder Reranker": {
+      "HitRate@1": 0.6904761904761905,
+      "HitRate@3": 0.9047619047619048,
+      "HitRate@5": 0.9523809523809523,
+      "Recall@1": 0.5119047619047619,
+      "Recall@3": 0.75,
+      "Recall@5": 0.8333333333333334,
+      "MRR": 0.7936507936507935,
+      "NDCG@3": 0.7102579710655164,
+      "NDCG@5": 0.7493897694398776
+    }
+  },
+  "generation_metrics": {
+    "total_evaluated": 50,
+    "answerable_count": 42,
+    "unanswerable_count": 8,
+    "refusal_accuracy_negative_tests": 0.0,
+    "faithfulness_score": 0.5,
+    "answer_relevance_f1": 0.05583456907241422,
+    "citation_precision": 0.0,
+    "citation_coverage": 0.0
+  },
+  "latency_metrics": {
+    "retrieval": {
+      "mean_ms": 788.59,
+      "p50_ms": 490.53,
+      "p90_ms": 1066.57,
+      "p95_ms": 1900.22,
+      "min_ms": 427.58,
+      "max_ms": 7371.02
+    },
+    "fusion_rrf": {
+      "mean_ms": 0.05,
+      "p50_ms": 0.04,
+      "p90_ms": 0.06,
+      "p95_ms": 0.08,
+      "min_ms": 0.03,
+      "max_ms": 0.12
+    },
+    "reranker": {
+      "mean_ms": 0.01,
+      "p50_ms": 0.01,
+      "p90_ms": 0.01,
+      "p95_ms": 0.01,
+      "min_ms": 0.01,
+      "max_ms": 0.05
+    },
+    "prompt_assembly": {
+      "mean_ms": 0.04,
+      "p50_ms": 0.04,
+      "p90_ms": 0.05,
+      "p95_ms": 0.06,
+      "min_ms": 0.02,
+      "max_ms": 0.07
+    },
+    "llm_generation": {
+      "mean_ms": 0.14,
+      "p50_ms": 0.13,
+      "p90_ms": 0.2,
+      "p95_ms": 0.22,
+      "min_ms": 0.09,
+      "max_ms": 0.25
+    },
+    "end_to_end_total": {
+      "mean_ms": 788.83,
+      "p50_ms": 490.78,
+      "p90_ms": 1066.81,
+      "p95_ms": 1900.41,
+      "min_ms": 427.73,
+      "max_ms": 7371.21
+    }
+  },
+  "item_level_generation": [
+    {
+      "id": "q01",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.1,
+      "answer_recall": 0.11764705882352941,
+      "answer_f1": 0.1081081081081081,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q02",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.06666666666666667,
+      "answer_f1": 0.05714285714285715,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q03",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.0,
+      "answer_recall": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q04",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.1,
+      "answer_recall": 0.11764705882352941,
+      "answer_f1": 0.1081081081081081,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q05",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.15,
+      "answer_recall": 0.13043478260869565,
+      "answer_f1": 0.13953488372093023,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q06",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.045454545454545456,
+      "answer_f1": 0.04761904761904762,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q07",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.0,
+      "answer_recall": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q08",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.0,
+      "answer_recall": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q09",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.1,
+      "answer_recall": 0.1,
+      "answer_f1": 0.10000000000000002,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q10",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.0,
+      "answer_recall": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q11",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.0,
+      "answer_recall": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q12",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.08333333333333333,
+      "answer_f1": 0.0625,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q13",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.1,
+      "answer_recall": 0.10526315789473684,
+      "answer_f1": 0.10256410256410256,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q14",
+      "category": "direct_factual",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.07142857142857142,
+      "answer_f1": 0.058823529411764705,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q15",
+      "category": "multi_chunk",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.0,
+      "answer_recall": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q16",
+      "category": "multi_chunk",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.043478260869565216,
+      "answer_f1": 0.046511627906976744,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q17",
+      "category": "multi_chunk",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.15,
+      "answer_recall": 0.13043478260869565,
+      "answer_f1": 0.13953488372093023,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q18",
+      "category": "multi_chunk",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.03333333333333333,
+      "answer_f1": 0.04,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q19",
+      "category": "multi_chunk",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.04,
+      "answer_f1": 0.044444444444444446,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q20",
+      "category": "multi_chunk",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.15,
+      "answer_recall": 0.12,
+      "answer_f1": 0.1333333333333333,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q21",
+      "category": "multi_chunk",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.0,
+      "answer_recall": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q22",
+      "category": "multi_chunk",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.05,
+      "answer_f1": 0.05000000000000001,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q23",
+      "category": "multi_chunk",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.041666666666666664,
+      "answer_f1": 0.04545454545454545,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q24",
+      "category": "multi_chunk",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.1,
+      "answer_recall": 0.125,
+      "answer_f1": 0.11111111111111112,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q25",
+      "category": "conceptual_synthesis",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.15,
+      "answer_recall": 0.1111111111111111,
+      "answer_f1": 0.12765957446808512,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q26",
+      "category": "conceptual_synthesis",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.05263157894736842,
+      "answer_f1": 0.05128205128205128,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q27",
+      "category": "conceptual_synthesis",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.0,
+      "answer_recall": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q28",
+      "category": "conceptual_synthesis",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.0,
+      "answer_recall": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q29",
+      "category": "conceptual_synthesis",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.045454545454545456,
+      "answer_f1": 0.04761904761904762,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q30",
+      "category": "conceptual_synthesis",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.05,
+      "answer_f1": 0.05000000000000001,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q31",
+      "category": "conceptual_synthesis",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.04,
+      "answer_f1": 0.044444444444444446,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q32",
+      "category": "conceptual_synthesis",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.04,
+      "answer_f1": 0.044444444444444446,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q33",
+      "category": "conceptual_synthesis",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.058823529411764705,
+      "answer_f1": 0.05405405405405405,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q34",
+      "category": "conceptual_synthesis",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.1,
+      "answer_recall": 0.09090909090909091,
+      "answer_f1": 0.09523809523809525,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q35",
+      "category": "cross_document",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.0,
+      "answer_recall": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q36",
+      "category": "cross_document",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.037037037037037035,
+      "answer_f1": 0.0425531914893617,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q37",
+      "category": "cross_document",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.1,
+      "answer_recall": 0.06896551724137931,
+      "answer_f1": 0.08163265306122448,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q38",
+      "category": "cross_document",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.1,
+      "answer_recall": 0.08333333333333333,
+      "answer_f1": 0.0909090909090909,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q39",
+      "category": "cross_document",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.038461538461538464,
+      "answer_f1": 0.043478260869565216,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q40",
+      "category": "cross_document",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.0,
+      "answer_recall": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q41",
+      "category": "cross_document",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.15,
+      "answer_recall": 0.11538461538461539,
+      "answer_f1": 0.13043478260869565,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q42",
+      "category": "cross_document",
+      "is_unanswerable": false,
+      "refusal_correct": true,
+      "faithfulness": 0.5,
+      "answer_precision": 0.05,
+      "answer_recall": 0.043478260869565216,
+      "answer_f1": 0.046511627906976744,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "ground_truth_cited": false,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q43",
+      "category": "unanswerable_out_of_corpus",
+      "is_unanswerable": true,
+      "refusal_correct": false,
+      "faithfulness": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q44",
+      "category": "unanswerable_out_of_corpus",
+      "is_unanswerable": true,
+      "refusal_correct": false,
+      "faithfulness": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q45",
+      "category": "unanswerable_out_of_corpus",
+      "is_unanswerable": true,
+      "refusal_correct": false,
+      "faithfulness": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q46",
+      "category": "unanswerable_out_of_corpus",
+      "is_unanswerable": true,
+      "refusal_correct": false,
+      "faithfulness": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q47",
+      "category": "unanswerable_out_of_corpus",
+      "is_unanswerable": true,
+      "refusal_correct": false,
+      "faithfulness": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q48",
+      "category": "unanswerable_out_of_corpus",
+      "is_unanswerable": true,
+      "refusal_correct": false,
+      "faithfulness": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q49",
+      "category": "unanswerable_out_of_corpus",
+      "is_unanswerable": true,
+      "refusal_correct": false,
+      "faithfulness": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    },
+    {
+      "id": "q50",
+      "category": "unanswerable_out_of_corpus",
+      "is_unanswerable": true,
+      "refusal_correct": false,
+      "faithfulness": 0.0,
+      "answer_f1": 0.0,
+      "citations_count": 0,
+      "citation_precision": 0.0,
+      "answer_preview": "[LLM Offline] No API key configured. Please set GROQ_API_KEY in your environment or .env.local to receive live model res"
+    }
+  ],
+  "item_level_retrieval": {
+    "Dense Only": [
+      {
+        "id": "q01",
+        "category": "direct_factual",
+        "question": "In what version of React were hooks introduced?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          0,
+          1,
+          10,
+          6,
+          8
+        ]
+      },
+      {
+        "id": "q02",
+        "category": "direct_factual",
+        "question": "What function from functools is used to preserve a decorated function's name and docstring?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197207891481876,
+        "retrieved_chunk_indices": [
+          1,
+          0,
+          2,
+          6,
+          5
+        ]
+      },
+      {
+        "id": "q03",
+        "category": "direct_factual",
+        "question": "What method on a requests Response object parses a JSON body?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          3,
+          0,
+          2,
+          5
+        ]
+      },
+      {
+        "id": "q04",
+        "category": "direct_factual",
+        "question": "What is the recommended timeout setting practice in requests?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          6,
+          4,
+          3,
+          0,
+          5
+        ]
+      },
+      {
+        "id": "q05",
+        "category": "direct_factual",
+        "question": "What are the two fundamental rules of React hooks?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          0,
+          1,
+          10,
+          6,
+          8
+        ]
+      },
+      {
+        "id": "q06",
+        "category": "direct_factual",
+        "question": "How does requests handle HTTP 404 responses by default?",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.2,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          5,
+          1,
+          2,
+          0,
+          6
+        ]
+      },
+      {
+        "id": "q07",
+        "category": "direct_factual",
+        "question": "Which React hook creates a mutable reference that persists across renders without triggering a re-render?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197207891481876,
+        "retrieved_chunk_indices": [
+          4,
+          3,
+          10,
+          1,
+          5
+        ]
+      },
+      {
+        "id": "q08",
+        "category": "direct_factual",
+        "question": "In what order are stacked decorators evaluated and applied?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          0,
+          2,
+          7,
+          5
+        ]
+      },
+      {
+        "id": "q09",
+        "category": "direct_factual",
+        "question": "What parameter is used in requests.post to send a JSON payload automatically?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          1,
+          2,
+          5,
+          0
+        ]
+      },
+      {
+        "id": "q10",
+        "category": "direct_factual",
+        "question": "What built-in decorator from functools is used for memoization caching?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          5,
+          6,
+          0,
+          7,
+          2
+        ]
+      },
+      {
+        "id": "q11",
+        "category": "direct_factual",
+        "question": "What naming convention must all custom React hooks follow?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          1,
+          6,
+          0,
+          10,
+          7
+        ]
+      },
+      {
+        "id": "q12",
+        "category": "direct_factual",
+        "question": "How do you disable automatic redirect following in requests?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          7,
+          5,
+          6,
+          4,
+          2
+        ]
+      },
+      {
+        "id": "q13",
+        "category": "direct_factual",
+        "question": "Can Python decorators be applied to classes in addition to functions?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          7,
+          6,
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "id": "q14",
+        "category": "direct_factual",
+        "question": "What is the effect of providing an empty dependency array [] to useEffect?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          6,
+          10,
+          4,
+          2
+        ]
+      },
+      {
+        "id": "q15",
+        "category": "multi_chunk",
+        "question": "How do you write a parameterized decorator that accepts arguments and preserves function metadata?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.5,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          0,
+          2,
+          6,
+          1,
+          7
+        ]
+      },
+      {
+        "id": "q16",
+        "category": "multi_chunk",
+        "question": "How do requests Sessions manage cookies and connection pooling across multiple HTTP requests?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.5,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          4,
+          5,
+          3,
+          6,
+          2
+        ]
+      },
+      {
+        "id": "q17",
+        "category": "multi_chunk",
+        "question": "How do you build a custom useLocalStorage hook combining useState and useEffect in React?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          7,
+          10,
+          1,
+          3
+        ]
+      },
+      {
+        "id": "q18",
+        "category": "multi_chunk",
+        "question": "How is a retry decorator with exponential backoff implemented in Python?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.5,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          4,
+          5,
+          6,
+          0,
+          2
+        ]
+      },
+      {
+        "id": "q19",
+        "category": "multi_chunk",
+        "question": "How do you handle interval timers in React useEffect and ensure cleanup on component unmount?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197207891481876,
+        "retrieved_chunk_indices": [
+          3,
+          2,
+          9,
+          8,
+          10
+        ]
+      },
+      {
+        "id": "q20",
+        "category": "multi_chunk",
+        "question": "How do query parameters and custom authorization headers differ in requests syntax?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          2,
+          3,
+          1,
+          7,
+          0
+        ]
+      },
+      {
+        "id": "q21",
+        "category": "multi_chunk",
+        "question": "How does useReducer manage state transitions compared to multiple useState calls?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197207891481876,
+        "retrieved_chunk_indices": [
+          8,
+          7,
+          2,
+          10,
+          9
+        ]
+      },
+      {
+        "id": "q22",
+        "category": "multi_chunk",
+        "question": "What issues occur when decorating functions without @wraps, and what does @wraps actually do?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          2,
+          1,
+          6,
+          7,
+          0
+        ]
+      },
+      {
+        "id": "q23",
+        "category": "multi_chunk",
+        "question": "What common mistakes with React hooks lead to stale closures, memory leaks, or infinite loops?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.3333333333333333,
+        "ndcg@5": 0.3065735963827292,
+        "retrieved_chunk_indices": [
+          1,
+          8,
+          9,
+          10,
+          2
+        ]
+      },
+      {
+        "id": "q24",
+        "category": "multi_chunk",
+        "question": "How does basic authentication work in requests, and what are the two syntax options?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          2,
+          0,
+          7,
+          1
+        ]
+      },
+      {
+        "id": "q25",
+        "category": "conceptual_synthesis",
+        "question": "Why is calling React hooks inside loops or conditional statements forbidden by Rule 1?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          0,
+          9,
+          10,
+          8
+        ]
+      },
+      {
+        "id": "q26",
+        "category": "conceptual_synthesis",
+        "question": "Why should query parameters be passed via params dictionary in requests rather than hardcoding in the URL string?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          1,
+          2,
+          3,
+          7,
+          6
+        ]
+      },
+      {
+        "id": "q27",
+        "category": "conceptual_synthesis",
+        "question": "What is the core syntactic equivalence of the @decorator syntax in Python?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          0,
+          1,
+          6,
+          2,
+          7
+        ]
+      },
+      {
+        "id": "q28",
+        "category": "conceptual_synthesis",
+        "question": "Why is using useMemo on trivial computations considered premature optimization?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.8503449055347546,
+        "retrieved_chunk_indices": [
+          5,
+          4,
+          11,
+          8,
+          9
+        ]
+      },
+      {
+        "id": "q29",
+        "category": "conceptual_synthesis",
+        "question": "Why is omitting timeout in requests calls considered a major cause of hanging scripts?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          4,
+          6,
+          5,
+          7,
+          0
+        ]
+      },
+      {
+        "id": "q30",
+        "category": "conceptual_synthesis",
+        "question": "What is the difference between useCallback and useMemo in terms of what they cache?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197207891481876,
+        "retrieved_chunk_indices": [
+          5,
+          10,
+          6,
+          11,
+          3
+        ]
+      },
+      {
+        "id": "q31",
+        "category": "conceptual_synthesis",
+        "question": "When should you avoid using Python decorators according to clean architecture guidelines?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          0,
+          2,
+          7,
+          1
+        ]
+      },
+      {
+        "id": "q32",
+        "category": "conceptual_synthesis",
+        "question": "Why is the functional state update setCount(prev => prev + 1) safer than setCount(count + 1)?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          2,
+          8,
+          1,
+          9,
+          7
+        ]
+      },
+      {
+        "id": "q33",
+        "category": "conceptual_synthesis",
+        "question": "Why does a timing decorator need start = time.perf_counter() before and after func(*args, **kwargs)?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          4,
+          6,
+          2,
+          0
+        ]
+      },
+      {
+        "id": "q34",
+        "category": "conceptual_synthesis",
+        "question": "Why does useContext require a Provider ancestor component in the React component tree?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          10,
+          7,
+          5,
+          0
+        ]
+      },
+      {
+        "id": "q35",
+        "category": "cross_document",
+        "question": "How does memoization with Python's @lru_cache compare to React's useMemo hook?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          5,
+          5,
+          10,
+          6,
+          7
+        ]
+      },
+      {
+        "id": "q36",
+        "category": "cross_document",
+        "question": "Compare implementing retry loops directly with requests vs writing a reusable retry decorator in Python.",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.5,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          4,
+          6,
+          5,
+          3,
+          4
+        ]
+      },
+      {
+        "id": "q37",
+        "category": "cross_document",
+        "question": "How does timeout management in requests compare to interval timer cleanup in React useEffect?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197207891481876,
+        "retrieved_chunk_indices": [
+          3,
+          2,
+          4,
+          6,
+          9
+        ]
+      },
+      {
+        "id": "q38",
+        "category": "cross_document",
+        "question": "Compare error propagation via r.raise_for_status() in requests with throwing errors in useReducer.",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.5,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          5,
+          6,
+          7,
+          1,
+          3
+        ]
+      },
+      {
+        "id": "q39",
+        "category": "cross_document",
+        "question": "How do higher-order decorator wrappers in Python relate to custom hook wrappers in React?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.5,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          2,
+          0,
+          6,
+          1,
+          7
+        ]
+      },
+      {
+        "id": "q40",
+        "category": "cross_document",
+        "question": "Compare managing persistent state with requests.Session() and React's useRef hook.",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.25,
+        "ndcg@5": 0.2640681225725909,
+        "retrieved_chunk_indices": [
+          10,
+          6,
+          7,
+          4,
+          8
+        ]
+      },
+      {
+        "id": "q41",
+        "category": "cross_document",
+        "question": "How does setting custom headers in requests compare to using React context for app-wide configuration?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.8772153153380493,
+        "retrieved_chunk_indices": [
+          6,
+          2,
+          10,
+          3,
+          3
+        ]
+      },
+      {
+        "id": "q42",
+        "category": "cross_document",
+        "question": "Compare functional state transformation in React (reducer pattern) with Python functions passed as arguments to decorators.",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197207891481876,
+        "retrieved_chunk_indices": [
+          0,
+          7,
+          8,
+          6,
+          1
+        ]
+      }
+    ],
+    "BM25 Only": [
+      {
+        "id": "q01",
+        "category": "direct_factual",
+        "question": "In what version of React were hooks introduced?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          0,
+          1,
+          6,
+          7,
+          10
+        ]
+      },
+      {
+        "id": "q02",
+        "category": "direct_factual",
+        "question": "What function from functools is used to preserve a decorated function's name and docstring?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          1,
+          7,
+          5,
+          3,
+          0
+        ]
+      },
+      {
+        "id": "q03",
+        "category": "direct_factual",
+        "question": "What method on a requests Response object parses a JSON body?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          3,
+          3,
+          5,
+          7
+        ]
+      },
+      {
+        "id": "q04",
+        "category": "direct_factual",
+        "question": "What is the recommended timeout setting practice in requests?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          3,
+          4,
+          6,
+          7,
+          2
+        ]
+      },
+      {
+        "id": "q05",
+        "category": "direct_factual",
+        "question": "What are the two fundamental rules of React hooks?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          0,
+          6,
+          4,
+          4
+        ]
+      },
+      {
+        "id": "q06",
+        "category": "direct_factual",
+        "question": "How does requests handle HTTP 404 responses by default?",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.25,
+        "ndcg@5": 0.43067655807339306,
+        "retrieved_chunk_indices": [
+          7,
+          5,
+          0,
+          6,
+          6
+        ]
+      },
+      {
+        "id": "q07",
+        "category": "direct_factual",
+        "question": "Which React hook creates a mutable reference that persists across renders without triggering a re-render?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.5,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          9,
+          4,
+          6,
+          3,
+          5
+        ]
+      },
+      {
+        "id": "q08",
+        "category": "direct_factual",
+        "question": "In what order are stacked decorators evaluated and applied?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          7,
+          0,
+          9,
+          5
+        ]
+      },
+      {
+        "id": "q09",
+        "category": "direct_factual",
+        "question": "What parameter is used in requests.post to send a JSON payload automatically?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          5,
+          3,
+          1,
+          7
+        ]
+      },
+      {
+        "id": "q10",
+        "category": "direct_factual",
+        "question": "What built-in decorator from functools is used for memoization caching?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          5,
+          7,
+          1,
+          2,
+          2
+        ]
+      },
+      {
+        "id": "q11",
+        "category": "direct_factual",
+        "question": "What naming convention must all custom React hooks follow?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          1,
+          6,
+          0,
+          10,
+          9
+        ]
+      },
+      {
+        "id": "q12",
+        "category": "direct_factual",
+        "question": "How do you disable automatic redirect following in requests?",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "retrieved_chunk_indices": [
+          0,
+          4,
+          9,
+          0,
+          6
+        ]
+      },
+      {
+        "id": "q13",
+        "category": "direct_factual",
+        "question": "Can Python decorators be applied to classes in addition to functions?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          6,
+          7,
+          0,
+          0,
+          2
+        ]
+      },
+      {
+        "id": "q14",
+        "category": "direct_factual",
+        "question": "What is the effect of providing an empty dependency array [] to useEffect?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          8,
+          9,
+          2,
+          0
+        ]
+      },
+      {
+        "id": "q15",
+        "category": "multi_chunk",
+        "question": "How do you write a parameterized decorator that accepts arguments and preserves function metadata?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          2,
+          7,
+          6,
+          1,
+          0
+        ]
+      },
+      {
+        "id": "q16",
+        "category": "multi_chunk",
+        "question": "How do requests Sessions manage cookies and connection pooling across multiple HTTP requests?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.3333333333333333,
+        "ndcg@5": 0.3065735963827292,
+        "retrieved_chunk_indices": [
+          4,
+          0,
+          7,
+          6,
+          5
+        ]
+      },
+      {
+        "id": "q17",
+        "category": "multi_chunk",
+        "question": "How do you build a custom useLocalStorage hook combining useState and useEffect in React?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.8503449055347546,
+        "retrieved_chunk_indices": [
+          6,
+          9,
+          1,
+          0,
+          7
+        ]
+      },
+      {
+        "id": "q18",
+        "category": "multi_chunk",
+        "question": "How is a retry decorator with exponential backoff implemented in Python?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          6,
+          4,
+          7,
+          2,
+          5
+        ]
+      },
+      {
+        "id": "q19",
+        "category": "multi_chunk",
+        "question": "How do you handle interval timers in React useEffect and ensure cleanup on component unmount?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.8772153153380493,
+        "retrieved_chunk_indices": [
+          3,
+          0,
+          6,
+          9,
+          8
+        ]
+      },
+      {
+        "id": "q20",
+        "category": "multi_chunk",
+        "question": "How do query parameters and custom authorization headers differ in requests syntax?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          2,
+          1,
+          6,
+          0,
+          4
+        ]
+      },
+      {
+        "id": "q21",
+        "category": "multi_chunk",
+        "question": "How does useReducer manage state transitions compared to multiple useState calls?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.5,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          7,
+          8,
+          6,
+          4,
+          4
+        ]
+      },
+      {
+        "id": "q22",
+        "category": "multi_chunk",
+        "question": "What issues occur when decorating functions without @wraps, and what does @wraps actually do?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6240505200038379,
+        "retrieved_chunk_indices": [
+          9,
+          1,
+          5,
+          3,
+          2
+        ]
+      },
+      {
+        "id": "q23",
+        "category": "multi_chunk",
+        "question": "What common mistakes with React hooks lead to stale closures, memory leaks, or infinite loops?",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.25,
+        "ndcg@5": 0.2640681225725909,
+        "retrieved_chunk_indices": [
+          8,
+          0,
+          1,
+          9,
+          6
+        ]
+      },
+      {
+        "id": "q24",
+        "category": "multi_chunk",
+        "question": "How does basic authentication work in requests, and what are the two syntax options?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          1,
+          3,
+          0,
+          4,
+          9
+        ]
+      },
+      {
+        "id": "q25",
+        "category": "conceptual_synthesis",
+        "question": "Why is calling React hooks inside loops or conditional statements forbidden by Rule 1?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          0,
+          8,
+          6,
+          10
+        ]
+      },
+      {
+        "id": "q26",
+        "category": "conceptual_synthesis",
+        "question": "Why should query parameters be passed via params dictionary in requests rather than hardcoding in the URL string?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          1,
+          2,
+          0,
+          7,
+          3
+        ]
+      },
+      {
+        "id": "q27",
+        "category": "conceptual_synthesis",
+        "question": "What is the core syntactic equivalence of the @decorator syntax in Python?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          5,
+          2,
+          7,
+          3
+        ]
+      },
+      {
+        "id": "q28",
+        "category": "conceptual_synthesis",
+        "question": "Why is using useMemo on trivial computations considered premature optimization?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.5,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          8,
+          5,
+          7,
+          3,
+          11
+        ]
+      },
+      {
+        "id": "q29",
+        "category": "conceptual_synthesis",
+        "question": "Why is omitting timeout in requests calls considered a major cause of hanging scripts?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          4,
+          7,
+          8,
+          3,
+          4
+        ]
+      },
+      {
+        "id": "q30",
+        "category": "conceptual_synthesis",
+        "question": "What is the difference between useCallback and useMemo in terms of what they cache?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.5,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          10,
+          5,
+          5,
+          9,
+          3
+        ]
+      },
+      {
+        "id": "q31",
+        "category": "conceptual_synthesis",
+        "question": "When should you avoid using Python decorators according to clean architecture guidelines?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg@5": 0.5,
+        "retrieved_chunk_indices": [
+          3,
+          8,
+          6,
+          7,
+          0
+        ]
+      },
+      {
+        "id": "q32",
+        "category": "conceptual_synthesis",
+        "question": "Why is the functional state update setCount(prev => prev + 1) safer than setCount(count + 1)?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          2,
+          1,
+          7,
+          8,
+          4
+        ]
+      },
+      {
+        "id": "q33",
+        "category": "conceptual_synthesis",
+        "question": "Why does a timing decorator need start = time.perf_counter() before and after func(*args, **kwargs)?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          4,
+          2,
+          7,
+          0
+        ]
+      },
+      {
+        "id": "q34",
+        "category": "conceptual_synthesis",
+        "question": "Why does useContext require a Provider ancestor component in the React component tree?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          0,
+          7,
+          7,
+          1
+        ]
+      },
+      {
+        "id": "q35",
+        "category": "cross_document",
+        "question": "How does memoization with Python's @lru_cache compare to React's useMemo hook?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.5,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          6,
+          5,
+          7,
+          0,
+          9
+        ]
+      },
+      {
+        "id": "q36",
+        "category": "cross_document",
+        "question": "Compare implementing retry loops directly with requests vs writing a reusable retry decorator in Python.",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "retrieved_chunk_indices": [
+          4,
+          5,
+          0,
+          7,
+          2
+        ]
+      },
+      {
+        "id": "q37",
+        "category": "cross_document",
+        "question": "How does timeout management in requests compare to interval timer cleanup in React useEffect?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.5,
+        "ndcg@5": 0.38685280723454163,
+        "retrieved_chunk_indices": [
+          6,
+          3,
+          0,
+          0,
+          6
+        ]
+      },
+      {
+        "id": "q38",
+        "category": "cross_document",
+        "question": "Compare error propagation via r.raise_for_status() in requests with throwing errors in useReducer.",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg@5": 0.5706417189553201,
+        "retrieved_chunk_indices": [
+          5,
+          7,
+          6,
+          8,
+          1
+        ]
+      },
+      {
+        "id": "q39",
+        "category": "cross_document",
+        "question": "How do higher-order decorator wrappers in Python relate to custom hook wrappers in React?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          6,
+          9,
+          1,
+          6,
+          0
+        ]
+      },
+      {
+        "id": "q40",
+        "category": "cross_document",
+        "question": "Compare managing persistent state with requests.Session() and React's useRef hook.",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "retrieved_chunk_indices": [
+          4,
+          6,
+          0,
+          9,
+          6
+        ]
+      },
+      {
+        "id": "q41",
+        "category": "cross_document",
+        "question": "How does setting custom headers in requests compare to using React context for app-wide configuration?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          6,
+          2,
+          1,
+          8,
+          0
+        ]
+      },
+      {
+        "id": "q42",
+        "category": "cross_document",
+        "question": "Compare functional state transformation in React (reducer pattern) with Python functions passed as arguments to decorators.",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          0,
+          7,
+          2,
+          0,
+          1
+        ]
+      }
+    ],
+    "Hybrid (Dense+BM25+RRF)": [
+      {
+        "id": "q01",
+        "category": "direct_factual",
+        "question": "In what version of React were hooks introduced?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          0,
+          1,
+          6,
+          10,
+          3
+        ]
+      },
+      {
+        "id": "q02",
+        "category": "direct_factual",
+        "question": "What function from functools is used to preserve a decorated function's name and docstring?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          1,
+          7,
+          5,
+          6,
+          0
+        ]
+      },
+      {
+        "id": "q03",
+        "category": "direct_factual",
+        "question": "What method on a requests Response object parses a JSON body?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          3,
+          0,
+          5,
+          3
+        ]
+      },
+      {
+        "id": "q04",
+        "category": "direct_factual",
+        "question": "What is the recommended timeout setting practice in requests?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg@5": 0.5,
+        "retrieved_chunk_indices": [
+          6,
+          3,
+          4,
+          0,
+          7
+        ]
+      },
+      {
+        "id": "q05",
+        "category": "direct_factual",
+        "question": "What are the two fundamental rules of React hooks?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          0,
+          1,
+          6,
+          10,
+          4
+        ]
+      },
+      {
+        "id": "q06",
+        "category": "direct_factual",
+        "question": "How does requests handle HTTP 404 responses by default?",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.25,
+        "ndcg@5": 0.43067655807339306,
+        "retrieved_chunk_indices": [
+          5,
+          0,
+          7,
+          6,
+          3
+        ]
+      },
+      {
+        "id": "q07",
+        "category": "direct_factual",
+        "question": "Which React hook creates a mutable reference that persists across renders without triggering a re-render?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.8503449055347546,
+        "retrieved_chunk_indices": [
+          4,
+          3,
+          9,
+          6,
+          10
+        ]
+      },
+      {
+        "id": "q08",
+        "category": "direct_factual",
+        "question": "In what order are stacked decorators evaluated and applied?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          0,
+          7,
+          2,
+          5
+        ]
+      },
+      {
+        "id": "q09",
+        "category": "direct_factual",
+        "question": "What parameter is used in requests.post to send a JSON payload automatically?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          1,
+          5,
+          0,
+          3
+        ]
+      },
+      {
+        "id": "q10",
+        "category": "direct_factual",
+        "question": "What built-in decorator from functools is used for memoization caching?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          5,
+          7,
+          2,
+          1,
+          3
+        ]
+      },
+      {
+        "id": "q11",
+        "category": "direct_factual",
+        "question": "What naming convention must all custom React hooks follow?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          1,
+          6,
+          0,
+          10,
+          3
+        ]
+      },
+      {
+        "id": "q12",
+        "category": "direct_factual",
+        "question": "How do you disable automatic redirect following in requests?",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "retrieved_chunk_indices": [
+          4,
+          0,
+          5,
+          6,
+          2
+        ]
+      },
+      {
+        "id": "q13",
+        "category": "direct_factual",
+        "question": "Can Python decorators be applied to classes in addition to functions?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          7,
+          6,
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "id": "q14",
+        "category": "direct_factual",
+        "question": "What is the effect of providing an empty dependency array [] to useEffect?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          8,
+          9,
+          2,
+          10
+        ]
+      },
+      {
+        "id": "q15",
+        "category": "multi_chunk",
+        "question": "How do you write a parameterized decorator that accepts arguments and preserves function metadata?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          2,
+          0,
+          7,
+          1,
+          5
+        ]
+      },
+      {
+        "id": "q16",
+        "category": "multi_chunk",
+        "question": "How do requests Sessions manage cookies and connection pooling across multiple HTTP requests?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg@5": 0.5437713091520254,
+        "retrieved_chunk_indices": [
+          4,
+          6,
+          5,
+          0,
+          7
+        ]
+      },
+      {
+        "id": "q17",
+        "category": "multi_chunk",
+        "question": "How do you build a custom useLocalStorage hook combining useState and useEffect in React?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          7,
+          1,
+          10,
+          9
+        ]
+      },
+      {
+        "id": "q18",
+        "category": "multi_chunk",
+        "question": "How is a retry decorator with exponential backoff implemented in Python?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6934264036172708,
+        "retrieved_chunk_indices": [
+          4,
+          5,
+          6,
+          2,
+          7
+        ]
+      },
+      {
+        "id": "q19",
+        "category": "multi_chunk",
+        "question": "How do you handle interval timers in React useEffect and ensure cleanup on component unmount?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          9,
+          2,
+          8,
+          6
+        ]
+      },
+      {
+        "id": "q20",
+        "category": "multi_chunk",
+        "question": "How do query parameters and custom authorization headers differ in requests syntax?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          2,
+          1,
+          0,
+          4,
+          5
+        ]
+      },
+      {
+        "id": "q21",
+        "category": "multi_chunk",
+        "question": "How does useReducer manage state transitions compared to multiple useState calls?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          8,
+          7,
+          6,
+          4,
+          9
+        ]
+      },
+      {
+        "id": "q22",
+        "category": "multi_chunk",
+        "question": "What issues occur when decorating functions without @wraps, and what does @wraps actually do?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          2,
+          6,
+          5,
+          3
+        ]
+      },
+      {
+        "id": "q23",
+        "category": "multi_chunk",
+        "question": "What common mistakes with React hooks lead to stale closures, memory leaks, or infinite loops?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.3333333333333333,
+        "ndcg@5": 0.3065735963827292,
+        "retrieved_chunk_indices": [
+          8,
+          1,
+          9,
+          0,
+          6
+        ]
+      },
+      {
+        "id": "q24",
+        "category": "multi_chunk",
+        "question": "How does basic authentication work in requests, and what are the two syntax options?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          0,
+          1,
+          1,
+          4
+        ]
+      },
+      {
+        "id": "q25",
+        "category": "conceptual_synthesis",
+        "question": "Why is calling React hooks inside loops or conditional statements forbidden by Rule 1?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          0,
+          8,
+          9,
+          10
+        ]
+      },
+      {
+        "id": "q26",
+        "category": "conceptual_synthesis",
+        "question": "Why should query parameters be passed via params dictionary in requests rather than hardcoding in the URL string?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          1,
+          2,
+          3,
+          0,
+          7
+        ]
+      },
+      {
+        "id": "q27",
+        "category": "conceptual_synthesis",
+        "question": "What is the core syntactic equivalence of the @decorator syntax in Python?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          0,
+          2,
+          5,
+          7
+        ]
+      },
+      {
+        "id": "q28",
+        "category": "conceptual_synthesis",
+        "question": "Why is using useMemo on trivial computations considered premature optimization?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          5,
+          8,
+          11,
+          4,
+          10
+        ]
+      },
+      {
+        "id": "q29",
+        "category": "conceptual_synthesis",
+        "question": "Why is omitting timeout in requests calls considered a major cause of hanging scripts?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          4,
+          6,
+          3,
+          5,
+          7
+        ]
+      },
+      {
+        "id": "q30",
+        "category": "conceptual_synthesis",
+        "question": "What is the difference between useCallback and useMemo in terms of what they cache?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          5,
+          10,
+          11,
+          5,
+          3
+        ]
+      },
+      {
+        "id": "q31",
+        "category": "conceptual_synthesis",
+        "question": "When should you avoid using Python decorators according to clean architecture guidelines?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          0,
+          7,
+          3,
+          2
+        ]
+      },
+      {
+        "id": "q32",
+        "category": "conceptual_synthesis",
+        "question": "Why is the functional state update setCount(prev => prev + 1) safer than setCount(count + 1)?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          2,
+          1,
+          8,
+          7,
+          4
+        ]
+      },
+      {
+        "id": "q33",
+        "category": "conceptual_synthesis",
+        "question": "Why does a timing decorator need start = time.perf_counter() before and after func(*args, **kwargs)?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          4,
+          2,
+          0,
+          7
+        ]
+      },
+      {
+        "id": "q34",
+        "category": "conceptual_synthesis",
+        "question": "Why does useContext require a Provider ancestor component in the React component tree?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          0,
+          7,
+          5,
+          1
+        ]
+      },
+      {
+        "id": "q35",
+        "category": "cross_document",
+        "question": "How does memoization with Python's @lru_cache compare to React's useMemo hook?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          5,
+          6,
+          10,
+          4,
+          1
+        ]
+      },
+      {
+        "id": "q36",
+        "category": "cross_document",
+        "question": "Compare implementing retry loops directly with requests vs writing a reusable retry decorator in Python.",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.25,
+        "ndcg@5": 0.2640681225725909,
+        "retrieved_chunk_indices": [
+          4,
+          5,
+          2,
+          5,
+          0
+        ]
+      },
+      {
+        "id": "q37",
+        "category": "cross_document",
+        "question": "How does timeout management in requests compare to interval timer cleanup in React useEffect?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          4,
+          6,
+          6,
+          9
+        ]
+      },
+      {
+        "id": "q38",
+        "category": "cross_document",
+        "question": "Compare error propagation via r.raise_for_status() in requests with throwing errors in useReducer.",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6240505200038379,
+        "retrieved_chunk_indices": [
+          5,
+          6,
+          7,
+          1,
+          8
+        ]
+      },
+      {
+        "id": "q39",
+        "category": "cross_document",
+        "question": "How do higher-order decorator wrappers in Python relate to custom hook wrappers in React?",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "retrieved_chunk_indices": [
+          2,
+          6,
+          1,
+          0,
+          7
+        ]
+      },
+      {
+        "id": "q40",
+        "category": "cross_document",
+        "question": "Compare managing persistent state with requests.Session() and React's useRef hook.",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.3333333333333333,
+        "ndcg@5": 0.3065735963827292,
+        "retrieved_chunk_indices": [
+          6,
+          10,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "id": "q41",
+        "category": "cross_document",
+        "question": "How does setting custom headers in requests compare to using React context for app-wide configuration?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.8503449055347546,
+        "retrieved_chunk_indices": [
+          6,
+          2,
+          10,
+          1,
+          3
+        ]
+      },
+      {
+        "id": "q42",
+        "category": "cross_document",
+        "question": "Compare functional state transformation in React (reducer pattern) with Python functions passed as arguments to decorators.",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197207891481876,
+        "retrieved_chunk_indices": [
+          0,
+          7,
+          8,
+          2,
+          1
+        ]
+      }
+    ],
+    "Hybrid + Cross-Encoder Reranker": [
+      {
+        "id": "q01",
+        "category": "direct_factual",
+        "question": "In what version of React were hooks introduced?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          0,
+          1,
+          6,
+          10,
+          3
+        ]
+      },
+      {
+        "id": "q02",
+        "category": "direct_factual",
+        "question": "What function from functools is used to preserve a decorated function's name and docstring?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          1,
+          7,
+          5,
+          6,
+          0
+        ]
+      },
+      {
+        "id": "q03",
+        "category": "direct_factual",
+        "question": "What method on a requests Response object parses a JSON body?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          3,
+          0,
+          5,
+          3
+        ]
+      },
+      {
+        "id": "q04",
+        "category": "direct_factual",
+        "question": "What is the recommended timeout setting practice in requests?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg@5": 0.5,
+        "retrieved_chunk_indices": [
+          6,
+          3,
+          4,
+          0,
+          7
+        ]
+      },
+      {
+        "id": "q05",
+        "category": "direct_factual",
+        "question": "What are the two fundamental rules of React hooks?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          0,
+          1,
+          6,
+          10,
+          4
+        ]
+      },
+      {
+        "id": "q06",
+        "category": "direct_factual",
+        "question": "How does requests handle HTTP 404 responses by default?",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.25,
+        "ndcg@5": 0.43067655807339306,
+        "retrieved_chunk_indices": [
+          5,
+          0,
+          7,
+          6,
+          3
+        ]
+      },
+      {
+        "id": "q07",
+        "category": "direct_factual",
+        "question": "Which React hook creates a mutable reference that persists across renders without triggering a re-render?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.8503449055347546,
+        "retrieved_chunk_indices": [
+          4,
+          3,
+          9,
+          6,
+          10
+        ]
+      },
+      {
+        "id": "q08",
+        "category": "direct_factual",
+        "question": "In what order are stacked decorators evaluated and applied?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          0,
+          7,
+          2,
+          5
+        ]
+      },
+      {
+        "id": "q09",
+        "category": "direct_factual",
+        "question": "What parameter is used in requests.post to send a JSON payload automatically?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          1,
+          5,
+          0,
+          3
+        ]
+      },
+      {
+        "id": "q10",
+        "category": "direct_factual",
+        "question": "What built-in decorator from functools is used for memoization caching?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          5,
+          7,
+          2,
+          1,
+          3
+        ]
+      },
+      {
+        "id": "q11",
+        "category": "direct_factual",
+        "question": "What naming convention must all custom React hooks follow?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          1,
+          6,
+          0,
+          10,
+          3
+        ]
+      },
+      {
+        "id": "q12",
+        "category": "direct_factual",
+        "question": "How do you disable automatic redirect following in requests?",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "retrieved_chunk_indices": [
+          4,
+          0,
+          5,
+          6,
+          2
+        ]
+      },
+      {
+        "id": "q13",
+        "category": "direct_factual",
+        "question": "Can Python decorators be applied to classes in addition to functions?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          7,
+          6,
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "id": "q14",
+        "category": "direct_factual",
+        "question": "What is the effect of providing an empty dependency array [] to useEffect?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          8,
+          9,
+          2,
+          10
+        ]
+      },
+      {
+        "id": "q15",
+        "category": "multi_chunk",
+        "question": "How do you write a parameterized decorator that accepts arguments and preserves function metadata?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          2,
+          0,
+          7,
+          1,
+          5
+        ]
+      },
+      {
+        "id": "q16",
+        "category": "multi_chunk",
+        "question": "How do requests Sessions manage cookies and connection pooling across multiple HTTP requests?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg@5": 0.5437713091520254,
+        "retrieved_chunk_indices": [
+          4,
+          6,
+          5,
+          0,
+          7
+        ]
+      },
+      {
+        "id": "q17",
+        "category": "multi_chunk",
+        "question": "How do you build a custom useLocalStorage hook combining useState and useEffect in React?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          7,
+          1,
+          10,
+          9
+        ]
+      },
+      {
+        "id": "q18",
+        "category": "multi_chunk",
+        "question": "How is a retry decorator with exponential backoff implemented in Python?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6934264036172708,
+        "retrieved_chunk_indices": [
+          4,
+          5,
+          6,
+          2,
+          7
+        ]
+      },
+      {
+        "id": "q19",
+        "category": "multi_chunk",
+        "question": "How do you handle interval timers in React useEffect and ensure cleanup on component unmount?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          9,
+          2,
+          8,
+          6
+        ]
+      },
+      {
+        "id": "q20",
+        "category": "multi_chunk",
+        "question": "How do query parameters and custom authorization headers differ in requests syntax?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          2,
+          1,
+          0,
+          4,
+          5
+        ]
+      },
+      {
+        "id": "q21",
+        "category": "multi_chunk",
+        "question": "How does useReducer manage state transitions compared to multiple useState calls?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          8,
+          7,
+          6,
+          4,
+          9
+        ]
+      },
+      {
+        "id": "q22",
+        "category": "multi_chunk",
+        "question": "What issues occur when decorating functions without @wraps, and what does @wraps actually do?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          2,
+          6,
+          5,
+          3
+        ]
+      },
+      {
+        "id": "q23",
+        "category": "multi_chunk",
+        "question": "What common mistakes with React hooks lead to stale closures, memory leaks, or infinite loops?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.3333333333333333,
+        "ndcg@5": 0.3065735963827292,
+        "retrieved_chunk_indices": [
+          8,
+          1,
+          9,
+          0,
+          6
+        ]
+      },
+      {
+        "id": "q24",
+        "category": "multi_chunk",
+        "question": "How does basic authentication work in requests, and what are the two syntax options?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          0,
+          1,
+          1,
+          4
+        ]
+      },
+      {
+        "id": "q25",
+        "category": "conceptual_synthesis",
+        "question": "Why is calling React hooks inside loops or conditional statements forbidden by Rule 1?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          0,
+          8,
+          9,
+          10
+        ]
+      },
+      {
+        "id": "q26",
+        "category": "conceptual_synthesis",
+        "question": "Why should query parameters be passed via params dictionary in requests rather than hardcoding in the URL string?",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309297535714575,
+        "retrieved_chunk_indices": [
+          1,
+          2,
+          3,
+          0,
+          7
+        ]
+      },
+      {
+        "id": "q27",
+        "category": "conceptual_synthesis",
+        "question": "What is the core syntactic equivalence of the @decorator syntax in Python?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          1,
+          0,
+          2,
+          5,
+          7
+        ]
+      },
+      {
+        "id": "q28",
+        "category": "conceptual_synthesis",
+        "question": "Why is using useMemo on trivial computations considered premature optimization?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          5,
+          8,
+          11,
+          4,
+          10
+        ]
+      },
+      {
+        "id": "q29",
+        "category": "conceptual_synthesis",
+        "question": "Why is omitting timeout in requests calls considered a major cause of hanging scripts?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          4,
+          6,
+          3,
+          5,
+          7
+        ]
+      },
+      {
+        "id": "q30",
+        "category": "conceptual_synthesis",
+        "question": "What is the difference between useCallback and useMemo in terms of what they cache?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          5,
+          10,
+          11,
+          5,
+          3
+        ]
+      },
+      {
+        "id": "q31",
+        "category": "conceptual_synthesis",
+        "question": "When should you avoid using Python decorators according to clean architecture guidelines?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          0,
+          7,
+          3,
+          2
+        ]
+      },
+      {
+        "id": "q32",
+        "category": "conceptual_synthesis",
+        "question": "Why is the functional state update setCount(prev => prev + 1) safer than setCount(count + 1)?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          2,
+          1,
+          8,
+          7,
+          4
+        ]
+      },
+      {
+        "id": "q33",
+        "category": "conceptual_synthesis",
+        "question": "Why does a timing decorator need start = time.perf_counter() before and after func(*args, **kwargs)?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          4,
+          2,
+          0,
+          7
+        ]
+      },
+      {
+        "id": "q34",
+        "category": "conceptual_synthesis",
+        "question": "Why does useContext require a Provider ancestor component in the React component tree?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          6,
+          0,
+          7,
+          5,
+          1
+        ]
+      },
+      {
+        "id": "q35",
+        "category": "cross_document",
+        "question": "How does memoization with Python's @lru_cache compare to React's useMemo hook?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131471927654584,
+        "retrieved_chunk_indices": [
+          5,
+          6,
+          10,
+          4,
+          1
+        ]
+      },
+      {
+        "id": "q36",
+        "category": "cross_document",
+        "question": "Compare implementing retry loops directly with requests vs writing a reusable retry decorator in Python.",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.25,
+        "ndcg@5": 0.2640681225725909,
+        "retrieved_chunk_indices": [
+          4,
+          5,
+          2,
+          5,
+          0
+        ]
+      },
+      {
+        "id": "q37",
+        "category": "cross_document",
+        "question": "How does timeout management in requests compare to interval timer cleanup in React useEffect?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 1.0,
+        "retrieved_chunk_indices": [
+          3,
+          4,
+          6,
+          6,
+          9
+        ]
+      },
+      {
+        "id": "q38",
+        "category": "cross_document",
+        "question": "Compare error propagation via r.raise_for_status() in requests with throwing errors in useReducer.",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.5,
+        "ndcg@5": 0.6240505200038379,
+        "retrieved_chunk_indices": [
+          5,
+          6,
+          7,
+          1,
+          8
+        ]
+      },
+      {
+        "id": "q39",
+        "category": "cross_document",
+        "question": "How do higher-order decorator wrappers in Python relate to custom hook wrappers in React?",
+        "hit@1": 0.0,
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0,
+        "retrieved_chunk_indices": [
+          2,
+          6,
+          1,
+          0,
+          7
+        ]
+      },
+      {
+        "id": "q40",
+        "category": "cross_document",
+        "question": "Compare managing persistent state with requests.Session() and React's useRef hook.",
+        "hit@1": 0.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.5,
+        "mrr": 0.3333333333333333,
+        "ndcg@5": 0.3065735963827292,
+        "retrieved_chunk_indices": [
+          6,
+          10,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "id": "q41",
+        "category": "cross_document",
+        "question": "How does setting custom headers in requests compare to using React context for app-wide configuration?",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.8503449055347546,
+        "retrieved_chunk_indices": [
+          6,
+          2,
+          10,
+          1,
+          3
+        ]
+      },
+      {
+        "id": "q42",
+        "category": "cross_document",
+        "question": "Compare functional state transformation in React (reducer pattern) with Python functions passed as arguments to decorators.",
+        "hit@1": 1.0,
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197207891481876,
+        "retrieved_chunk_indices": [
+          0,
+          7,
+          8,
+          2,
+          1
+        ]
+      }
+    ]
+  }
+}

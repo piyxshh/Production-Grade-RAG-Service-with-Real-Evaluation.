@@ -1,18 +1,21 @@
 # ARCHITECTURE.md — System Architecture
 ## Production-Grade RAG Service
 
-**Last Updated:** 2026-08-04  
-**Current Phase:** Phase 2 — Retrieval Pipeline (in progress)
+**Last Updated:** 2026-08-14  
+**Current Phase:** Phase 2 — Manual Retrieval & Generation Pipeline (✅ COMPLETED)
 
 ---
 
 ## Overview
 
 This service answers natural-language questions by:
-1. **Ingesting** a corpus of documents — loading, chunking, embedding, and storing them in Postgres.
-2. **Retrieving** the most relevant chunks for a given question using hybrid search (dense vector + BM25 keyword).
-3. **Reranking** those results with a cross-encoder for precision.
-4. **Generating** a grounded answer using an LLM, citing only the retrieved context.
+1. **Ingesting** a corpus of documents — loading, chunking, embedding, and storing them in Postgres (or in-memory mock store for zero-infra local dev).
+2. **Retrieving** the most relevant chunks using parallel hybrid search (dense vector semantic search via Cohere + sparse keyword search via BM25 Okapi).
+3. **Fusing** dense and sparse ranked candidates using Reciprocal Rank Fusion (RRF with $k=60$).
+4. **Reranking** fused candidates with a Cross-Encoder (`ms-marco-MiniLM-L-6-v2`) for fine-grained token-level cross-attention.
+5. **Prompt Building** assembling strictly grounded context blocks with document titles and chunk index citations.
+6. **Generating** grounded answers with inline citations using Groq (`llama-3.1-8b-instant`) or OpenAI.
+7. **Serving** the pipeline via async FastAPI (`POST /query`).
 
 ---
 
@@ -49,7 +52,7 @@ This service answers natural-language questions by:
        ▼
 ┌──────────────────────────────┐
 │   PostgreSQL + pgvector      │  db/models.py + db/session.py
-│                              │
+│                              │  (or data/mock_index.json for in-memory store)
 │  ┌─────────────────────┐    │
 │  │ Document Table       │    │
 │  │ id, source_url,      │    │
@@ -68,10 +71,10 @@ This service answers natural-language questions by:
 
 
 ════════════════════════════════════════════════════════════════
- PHASE 2: RETRIEVAL PIPELINE (runs per query, online)
+ PHASE 2: RETRIEVAL & GENERATION PIPELINE (runs per query, online)
 ════════════════════════════════════════════════════════════════
 
-  User Question (string)
+  User Question (POST /query)
         │
         ├──────────────────────────┐
         │                          │
@@ -83,10 +86,10 @@ This service answers natural-language questions by:
 │ 1. Embed the │          │ 1. Tokenize  │
 │    query via │          │    query     │
 │    Cohere    │          │ 2. BM25      │
-│ 2. <=> cosine│          │    keyword   │
+│ 2. Cosine    │          │    keyword   │
 │    distance  │          │    search    │
-│    in pgvec- │          │    (rank_    │
-│    tor       │          │    bm25)     │
+│    in store  │          │    (rank_    │
+│              │          │    bm25)     │
 │ Returns top-K│          │ Returns top-K│
 │ Chunk rows   │          │ Chunk rows   │
 └──────┬───────┘          └──────┬───────┘
@@ -103,7 +106,7 @@ This service answers natural-language questions by:
          │  Σ 1/(k + rank)  │
          │  Merges two lists│
          │  into one ranked │
-         │  list            │
+         │  list (k=60)     │
          └────────┬─────────┘
                   │
                   ▼
@@ -111,11 +114,11 @@ This service answers natural-language questions by:
          │  Reranker        │  reranker.py
          │                  │
          │  Cross-encoder   │
-         │  model reads     │
-         │  (query, chunk)  │
-         │  pairs directly  │
-         │  and re-scores   │
-         │  for precision   │
+         │  ms-marco-       │
+         │  MiniLM-L-6-v2   │
+         │  Re-scores top-N │
+         │  candidates for  │
+         │  token precision │
          └────────┬─────────┘
                   │
                   ▼
@@ -123,7 +126,8 @@ This service answers natural-language questions by:
          │  Prompt Builder  │  generation/prompt_builder.py
          │                  │
          │  Assembles:      │
-         │  - System prompt │
+         │  - Strict system │
+         │    grounding rules
          │  - Context chunks│
          │    with sources  │
          │  - User question │
@@ -134,11 +138,13 @@ This service answers natural-language questions by:
          │  LLM Generator   │  generation/generator.py
          │                  │
          │  Groq API        │
-         │  (Llama 3 model) │
+         │  (Llama 3.1) /   │
+         │  OpenAI Async    │
          └────────┬─────────┘
                   │
                   ▼
-        Answer + Source Citations
+       Grounded Answer + Citations
+       (QueryResponse schema)
 ```
 
 ---
@@ -146,97 +152,94 @@ This service answers natural-language questions by:
 ## Component Descriptions
 
 ### `src/ingestion/loaders.py`
-**Promise:** Takes chaotic files from `corpus/raw/` and returns a uniform `list[dict]` structure.  
-**Output:** `[{"text": "...", "metadata": {"filename": "...", "source_url": "..."}}]`  
-**Handles:** `.md`, `.txt`, `.pdf` (text-native only).  
-**Known edge case:** Scanned image PDFs return empty strings. OCR path was explicitly rejected — swap the corpus file instead.
+**Promise:** Uniformly ingests documents from `corpus/raw/` into `list[dict]` structure.  
+**Handles:** `.md`, `.txt`, `.pdf`.
 
 ---
 
 ### `src/ingestion/chunker.py`
-**Promise:** Breaks large documents into small, overlapping, searchable units without severing concepts.  
-**Two functions:**
-- `chunk_text(text, chunk_size=500, overlap=50) -> list[str]` — Core split logic. Step = chunk_size - overlap.
-- `chunk_documents(documents) -> list[dict]` — Wraps `chunk_text`, attaches original metadata + `chunk_index` to every chunk.  
-
-**The overlap guarantee:** A sentence spanning the 500-char boundary appears at the end of Chunk N and the beginning of Chunk N+1 (overlap=50 chars). No concept is entirely severed.
-
-**Where it breaks:** Character-based chunking splits mid-word or mid-sentence. Semantic chunking (splitting on paragraph/sentence boundaries) would be more precise but requires an NLP library and is out of scope for Phase 1.
+**Promise:** Splits documents into 500-character chunks with 50-character overlap to preserve semantic continuity across chunk boundaries.
 
 ---
 
 ### `src/ingestion/embedder.py`
-**Promise:** Takes a list of text strings, returns a list of 1024-dimensional float vectors (one per text), in the same order, reliably even under API rate limits.  
-**API:** Cohere `embed-english-v3.0` via `AsyncClientV2`.  
-**Mechanisms:**
-- **Batching:** Groups texts into batches of 96 (Cohere's request limit).
-- **Concurrency:** `asyncio.gather` fans out all batches simultaneously.
-- **Backpressure:** `asyncio.Semaphore(10)` prevents more than 10 requests in-flight at once.
-- **Retry:** Tenacity catches `TooManyRequestsError`, `ServiceUnavailableError`, `InternalServerError`; retries up to 5× with exponential backoff + random jitter.
-
-**Where it breaks:** The Semaphore is per-call-site, not global. If two concurrent callers both embed independently, effective concurrency doubles to 20. This is acceptable at current corpus scale.
+**Promise:** Async embedder utilizing Cohere `embed-english-v3.0` (1024 dims). Batches into 96 chunks, bounded by `asyncio.Semaphore(10)` concurrency, with `tenacity` exponential retry backoff.
 
 ---
 
-### `src/db/models.py`
-**Two tables:**
-
-#### `Document`
-| Column | Type | Notes |
-|--------|------|-------|
-| id | UUID | Primary key, generated by Postgres |
-| source_url | String(2048) | Stable external key used for deduplication on re-ingest |
-| title | String(512) | Optional |
-| metadata | JSONB | Arbitrary metadata from loader |
-| created_at | DateTime | Server-set timestamp |
-
-#### `Chunk`
-| Column | Type | Notes |
-|--------|------|-------|
-| id | UUID | Primary key |
-| document_id | UUID FK → Document | CASCADE delete |
-| text | Text | Raw chunk string |
-| chunk_index | Integer | Position within parent document |
-| embedding | Vector(1024) | pgvector type; 1024 dims = Cohere model output |
-| metadata | JSONB | Carries filename, chunk_index, any loader metadata |
-| created_at | DateTime | Server-set timestamp |
-
-**Relationship:** `Document.chunks` → `Chunk` (one-to-many). Deleting a Document cascades to all its Chunks.
+### `src/db/models.py` & `src/retrieval/stores.py`
+**Promise:** Database models for `Document` and `Chunk` backed by pgvector, abstracted behind a `VectorStore` interface supporting `InMemoryVectorStore` (`data/mock_index.json`) and `PgVectorStore`.
 
 ---
 
-### `src/ingestion/pipeline.py`
-**Promise:** Orchestrates the full ingest from files on disk to rows in Postgres, with no data loss from partial failures.  
-**Flow:**
-1. `asyncio.to_thread(load_documents)` — offloads synchronous file I/O from the event loop.
-2. `chunk_documents` — splits all loaded docs.
-3. `embed_batch([c["text"] for c in chunks])` — embeds all chunks in one concurrent pass.
-4. Per-document loop: `zip(doc_chunks, doc_vectors)` pairs text with vector, saves `Chunk` rows.
-5. Per-document `commit()` / `rollback()` — one bad document cannot abort the whole corpus.  
-
-**Deduplication:** Checks `source_url` before inserting a `Document`. Re-ingesting the same file updates metadata instead of creating duplicates.
+### `src/retrieval/dense.py` ✅
+**Promise:** Computes query embedding using Cohere (`input_type="search_query"`) and performs cosine similarity search against the active vector store backend.
 
 ---
 
-### `src/retrieval/dense.py` — NOT YET IMPLEMENTED
-**Planned:** Async function that embeds the user's query, then performs a `pgvector` `<=>` cosine distance query to retrieve the top-K most semantically similar `Chunk` rows.
+### `src/retrieval/sparse.py` ✅
+**Promise:** In-memory lexical search using `rank_bm25` (BM25Okapi). Operates over the same chunk corpus IDs to ensure lossless key matching during fusion.
 
 ---
 
-### `src/retrieval/sparse.py` — NOT YET IMPLEMENTED
-**Planned:** BM25 keyword search using `rank_bm25` (in-memory). Loads all chunk texts from Postgres at startup, builds a `BM25Okapi` index, and queries it against the tokenized user query.
+### `src/retrieval/fusion.py` ✅
+**Promise:** Merges dense and sparse ranked lists using Reciprocal Rank Fusion (RRF).  
+**Formula:** $\text{score}(d) = \sum \frac{1}{k + \text{rank}(d)}$ with $k=60$.  
+**Why RRF:** Solves the problem of merging incomparable score distributions (cosine similarity $[0, 1]$ vs. unbounded BM25 scores) without requiring heuristic score calibration.
 
 ---
 
-### `src/retrieval/fusion.py` — NOT YET IMPLEMENTED
-**Planned:** Reciprocal Rank Fusion (RRF).  
-**Formula:** `score(d) = Σ 1 / (k + rank(d))` where k=60 is the standard dampening constant.  
-**Purpose:** Merges the ranked lists from dense and sparse retrieval into a single unified ranking without requiring the two lists' scores to be on the same scale.
+### `src/retrieval/reranker.py` ✅
+**Promise:** Cross-encoder reranking using `cross-encoder/ms-marco-MiniLM-L-6-v2`. Computes joint query-document cross-attention for candidate chunks with graceful fallback to RRF ordering if the local model is unavailable.
 
 ---
 
-### `src/retrieval/reranker.py` — NOT YET IMPLEMENTED
-**Planned:** Cross-encoder reranker. Unlike bi-encoders (used in dense retrieval), a cross-encoder reads the query and each chunk together as a single input, enabling far more accurate relevance scoring at the cost of speed. Applied only to the top-N fused results, not the full corpus.
+### `src/generation/prompt_builder.py` ✅
+**Promise:** Formats system and user prompts to enforce strict factual grounding. Enforces explicit refusal string (`"I cannot answer this question based on the provided document context."`) for ungrounded queries and requires inline citation tags `[Doc: <title>, Chunk: <index>]`.
+
+---
+
+### `src/generation/generator.py` ✅
+**Promise:** Async chat completion client targeting Groq (`llama-3.1-8b-instant`) or OpenAI with non-blocking I/O and temperature 0.0 for factual accuracy.
+
+---
+
+### `src/pipeline/manual.py` ✅
+**Promise:** Central orchestration function `run_manual_rag_pipeline(query)` executing parallel dense+sparse search, RRF fusion, cross-encoder reranking, prompt formatting, and LLM generation.
+
+---
+
+### `src/api/routes/query.py` ✅
+**Promise:** FastAPI route `POST /query` validating requests via Pydantic `QueryRequest` and returning structured `QueryResponse` with answer, citations, and retrieval stage counts.
+
+---
+
+## Phase 3: Evaluation & Benchmarking Architecture ✅
+
+### `evaluation/test_set.json`
+50 hand-crafted test cases covering:
+1. Direct Factual (14 items)
+2. Multi-Chunk (10 items)
+3. Conceptual / Synthesis (10 items)
+4. Cross-Document (8 items)
+5. Unanswerable / Out-of-Corpus (8 items)
+
+### `src/evaluation/retrieval_eval.py`
+Automated ablation engine evaluating:
+- Config A: Dense only (`dense.py`)
+- Config B: Sparse only (`sparse.py`)
+- Config C: Hybrid RRF (`fusion.py`)
+- Config D: Hybrid + Cross-Encoder (`reranker.py`)
+Metrics: HitRate@1/3/5, Recall@1/3/5, MRR, NDCG@3/5.
+
+### `src/evaluation/generation_eval.py`
+Quality metrics evaluator assessing:
+- Refusal accuracy on negative test cases
+- Citation format precision & grounding
+- Answer token-level F1 against ground truth
+
+### `src/evaluation/latency_eval.py`
+High-resolution timer calculating Mean, P50, P90, P95, and Max latencies for every individual stage and end-to-end execution.
 
 ---
 
@@ -254,13 +257,15 @@ Location: `src/db/migrations/`. Not yet initialized. Must be run after ORM model
 
 ## Key Engineering Decisions (Locked)
 
-| Decision | What was considered | What was chosen | Why |
-|----------|--------------------|-----------------|----|
-| Vector Store | Qdrant vs pgvector | pgvector (Postgres) | Qdrant abstracts RRF internally; pgvector forces manual implementation which teaches the algorithm |
-| Corpus format | Scanned PDFs (rejected), Markdown | Markdown text files | OCR path was considered and explicitly rejected to keep focus on RAG, not document processing |
-| Embedding provider | OpenAI (paid), sentence-transformers (local GPU), Cohere (free API) | Cohere | Free developer tier; avoids local GPU requirement; production-realistic async API |
-| Chunking strategy | Semantic, recursive, fixed-size | Fixed-size with overlap (500/50) | Baseline approach; highest learning clarity; semantic chunking added complexity without additional learning value at this stage |
-| LLM provider | OpenAI (paid), Groq (free) | Groq | Free tier; avoids API costs for portfolio project |
+| Decision | What was chosen | Why |
+|----------|-----------------|----|
+| Vector Store | PostgreSQL + pgvector (with inmemory fallback) | pgvector forces manual RRF implementation; inmemory allows zero-dependency local development |
+| Corpus format | Markdown text files (`corpus/raw/`) | Keeps focus on RAG retrieval mechanics rather than OCR preprocessing |
+| Embedding provider | Cohere `embed-english-v3.0` (1024 dims) | Free developer tier; avoids local GPU requirement; production-realistic async API |
+| Chunking strategy | Fixed-size with overlap (500/50) | Baseline approach; prevents boundary conceptual clipping |
+| Hybrid Fusion | Reciprocal Rank Fusion ($k=60$) | Robust combination of lexical (BM25) and semantic (dense) ranks |
+| Reranker model | `cross-encoder/ms-marco-MiniLM-L-6-v2` | High-precision second-stage reranker |
+| LLM provider | Groq API (`llama-3.1-8b-instant`) | Fast inference and free tier |
 
 ---
 
@@ -273,3 +278,5 @@ Location: `src/db/migrations/`. Not yet initialized. Must be run after ORM model
 - Any dependency added or removed from `pyproject.toml`
 
 When updating: edit both the component description section and the Update Log in `AGENTS.md`.
+
+
