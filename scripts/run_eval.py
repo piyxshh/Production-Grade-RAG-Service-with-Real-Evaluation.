@@ -1,5 +1,11 @@
-﻿"""
-CLI script: run the RAGAS evaluation suite.
-Usage: poetry run python scripts/run_eval.py
+"""CLI script to run the complete RAG evaluation suite.
+
+Usage:
+    python scripts/run_eval.py
 """
-# TODO: implement after src/evaluation/ragas_eval.py is complete
+import asyncio
+from scripts.evaluate import main
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
