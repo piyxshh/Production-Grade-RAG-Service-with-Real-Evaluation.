@@ -36,3 +36,9 @@ poetry.lock  # commit this — ensures reproducible installs
 
 # Docker
 *.log
+
+# Internal documentation & agent state files
+agentsfile/
+P2_RAG_DEVELOPMENT_AND_ARCHITECTURE_STATUS.md
+docs/
+
