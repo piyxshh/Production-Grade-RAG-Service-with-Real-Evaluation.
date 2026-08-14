@@ -8,7 +8,8 @@ from typing import Any
 def format_retrieval_ablation_table(ablation_results: dict[str, dict]) -> str:
     """Format retrieval ablation results into a clean ASCII table."""
     headers = ["Configuration", "Hit@1", "Hit@3", "Hit@5", "Recall@5", "MRR", "NDCG@5"]
-    col_widths = [34, 8, 8, 8, 10, 8, 8]
+    col_widths = [44, 8, 8, 8, 10, 8, 8]
+
 
     def fmt_row(cells: list[str]) -> str:
         return " | ".join(f"{str(c):<{col_widths[i]}}" for i, c in enumerate(cells))

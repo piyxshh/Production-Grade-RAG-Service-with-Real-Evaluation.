@@ -91,12 +91,19 @@ async def retrieve_hybrid_reranked(query: str, top_k: int = 10) -> list[Chunk]:
     return [item[0] for item in reranked]
 
 
-RETRIEVAL_CONFIGS: dict[str, Callable[[str, int], Any]] = {
-    "Dense Only": retrieve_dense_only,
-    "BM25 Only": retrieve_sparse_only,
-    "Hybrid (Dense+BM25+RRF)": retrieve_hybrid_rrf,
-    "Hybrid + Cross-Encoder Reranker": retrieve_hybrid_reranked,
-}
+def get_retrieval_configs() -> dict[str, Callable[[str, int], Any]]:
+    """Return dictionary of retrieval configs with dynamic status labeling."""
+    reranker_label = (
+        "Hybrid + Cross-Encoder Reranker"
+        if reranker.is_cross_encoder_loaded()
+        else "Hybrid + Reranker (Fallback: RRF Order)"
+    )
+    return {
+        "Dense Only": retrieve_dense_only,
+        "BM25 Only": retrieve_sparse_only,
+        "Hybrid (Dense+BM25+RRF)": retrieve_hybrid_rrf,
+        reranker_label: retrieve_hybrid_reranked,
+    }
 
 
 async def evaluate_retrieval_configuration(
@@ -187,7 +194,9 @@ async def evaluate_retrieval_configuration(
 
 async def run_all_retrieval_ablations(test_set: list[dict], k_eval: int = 5) -> dict[str, Any]:
     """Run all 4 retrieval configurations and collect ablation results."""
+    configs = get_retrieval_configs()
     results = {}
-    for name, fn in RETRIEVAL_CONFIGS.items():
+    for name, fn in configs.items():
         results[name] = await evaluate_retrieval_configuration(name, fn, test_set, k_eval)
     return results
+

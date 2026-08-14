@@ -154,13 +154,17 @@ def aggregate_generation_metrics(item_evals: list[dict]) -> dict[str, Any]:
         else 0.0
     )
 
+    is_offline = any("[LLM Offline]" in e.get("answer_preview", "") for e in item_evals)
+
     return {
         "total_evaluated": len(item_evals),
         "answerable_count": len(answerable),
         "unanswerable_count": len(unanswerable),
-        "refusal_accuracy_negative_tests": refusal_acc,
-        "faithfulness_score": avg_faithfulness,
-        "answer_relevance_f1": avg_f1,
-        "citation_precision": avg_citation_prec,
-        "citation_coverage": citation_coverage,
+        "llm_status": "offline_diagnostic" if is_offline else "live_inference",
+        "refusal_accuracy_negative_tests": refusal_acc if not is_offline else None,
+        "faithfulness_score": avg_faithfulness if not is_offline else None,
+        "answer_relevance_f1": avg_f1 if not is_offline else None,
+        "citation_precision": avg_citation_prec if not is_offline else None,
+        "citation_coverage": citation_coverage if not is_offline else None,
     }
+

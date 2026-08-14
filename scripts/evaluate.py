@@ -87,12 +87,21 @@ async def main() -> None:
     print(f"Total Test Cases Evaluated       : {generation_summary['total_evaluated']}")
     print(f"Answerable Queries Evaluated     : {generation_summary['answerable_count']}")
     print(f"Unanswerable (Negative) Queries  : {generation_summary['unanswerable_count']}")
-    print(f"Refusal Accuracy (Negative Tests): {generation_summary['refusal_accuracy_negative_tests'] * 100:.1f}%")
-    print(f"Faithfulness / Grounding Score   : {generation_summary['faithfulness_score'] * 100:.1f}%")
-    print(f"Answer Relevance (Token F1)      : {generation_summary['answer_relevance_f1'] * 100:.1f}%")
-    print(f"Citation Precision               : {generation_summary['citation_precision'] * 100:.1f}%")
-    print(f"Citation Coverage                : {generation_summary['citation_coverage'] * 100:.1f}%")
+    if generation_summary.get("llm_status") == "offline_diagnostic":
+        print("LLM Provider Status              : [OFFLINE] Set GROQ_API_KEY for live inference benchmarking")
+        print("Refusal Accuracy (Negative Tests): [Requires Live GROQ_API_KEY]")
+        print("Faithfulness / Grounding Score   : [Requires Live GROQ_API_KEY]")
+        print("Answer Relevance (Token F1)      : [Requires Live GROQ_API_KEY]")
+        print("Citation Precision               : [Requires Live GROQ_API_KEY]")
+        print("Citation Coverage                : [Requires Live GROQ_API_KEY]")
+    else:
+        print(f"Refusal Accuracy (Negative Tests): {generation_summary['refusal_accuracy_negative_tests'] * 100:.1f}%")
+        print(f"Faithfulness / Grounding Score   : {generation_summary['faithfulness_score'] * 100:.1f}%")
+        print(f"Answer Relevance (Token F1)      : {generation_summary['answer_relevance_f1'] * 100:.1f}%")
+        print(f"Citation Precision               : {generation_summary['citation_precision'] * 100:.1f}%")
+        print(f"Citation Coverage                : {generation_summary['citation_coverage'] * 100:.1f}%")
     print("=" * 80)
+
 
     # Step 3: Latency Benchmarking
     print("\n[4/4] Profiling Per-Stage and End-to-End Latency...")

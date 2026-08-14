@@ -12,14 +12,14 @@
   "retrieval_ablation": {
     "Dense Only": {
       "HitRate@1": 0.6666666666666666,
-      "HitRate@3": 0.9523809523809523,
+      "HitRate@3": 0.9285714285714286,
       "HitRate@5": 1.0,
       "Recall@1": 0.5,
-      "Recall@3": 0.8452380952380952,
+      "Recall@3": 0.8333333333333334,
       "Recall@5": 0.9047619047619048,
-      "MRR": 0.8162698412698413,
-      "NDCG@3": 0.7725399789813212,
-      "NDCG@5": 0.799972997199155
+      "MRR": 0.8142857142857144,
+      "NDCG@3": 0.7652406076388752,
+      "NDCG@5": 0.7989609621084375
     },
     "BM25 Only": {
       "HitRate@1": 0.5238095238095238,
@@ -43,7 +43,7 @@
       "NDCG@3": 0.7102579710655164,
       "NDCG@5": 0.7493897694398776
     },
-    "Hybrid + Cross-Encoder Reranker": {
+    "Hybrid + Reranker (Fallback: RRF Order)": {
       "HitRate@1": 0.6904761904761905,
       "HitRate@3": 0.9047619047619048,
       "HitRate@5": 0.9523809523809523,
@@ -59,60 +59,61 @@
     "total_evaluated": 50,
     "answerable_count": 42,
     "unanswerable_count": 8,
-    "refusal_accuracy_negative_tests": 0.0,
-    "faithfulness_score": 0.5,
-    "answer_relevance_f1": 0.05583456907241422,
-    "citation_precision": 0.0,
-    "citation_coverage": 0.0
+    "llm_status": "offline_diagnostic",
+    "refusal_accuracy_negative_tests": null,
+    "faithfulness_score": null,
+    "answer_relevance_f1": null,
+    "citation_precision": null,
+    "citation_coverage": null
   },
   "latency_metrics": {
     "retrieval": {
-      "mean_ms": 788.59,
-      "p50_ms": 490.53,
-      "p90_ms": 1066.57,
-      "p95_ms": 1900.22,
-      "min_ms": 427.58,
-      "max_ms": 7371.02
+      "mean_ms": 659.43,
+      "p50_ms": 476.84,
+      "p90_ms": 609.52,
+      "p95_ms": 1930.99,
+      "min_ms": 432.79,
+      "max_ms": 4424.95
     },
     "fusion_rrf": {
-      "mean_ms": 0.05,
-      "p50_ms": 0.04,
-      "p90_ms": 0.06,
-      "p95_ms": 0.08,
-      "min_ms": 0.03,
-      "max_ms": 0.12
+      "mean_ms": 0.09,
+      "p50_ms": 0.08,
+      "p90_ms": 0.13,
+      "p95_ms": 0.14,
+      "min_ms": 0.05,
+      "max_ms": 0.19
     },
     "reranker": {
       "mean_ms": 0.01,
       "p50_ms": 0.01,
-      "p90_ms": 0.01,
-      "p95_ms": 0.01,
+      "p90_ms": 0.02,
+      "p95_ms": 0.02,
       "min_ms": 0.01,
-      "max_ms": 0.05
+      "max_ms": 0.02
     },
     "prompt_assembly": {
-      "mean_ms": 0.04,
-      "p50_ms": 0.04,
-      "p90_ms": 0.05,
-      "p95_ms": 0.06,
-      "min_ms": 0.02,
-      "max_ms": 0.07
+      "mean_ms": 0.07,
+      "p50_ms": 0.07,
+      "p90_ms": 0.1,
+      "p95_ms": 0.11,
+      "min_ms": 0.04,
+      "max_ms": 0.14
     },
     "llm_generation": {
-      "mean_ms": 0.14,
-      "p50_ms": 0.13,
-      "p90_ms": 0.2,
-      "p95_ms": 0.22,
-      "min_ms": 0.09,
-      "max_ms": 0.25
+      "mean_ms": 0.24,
+      "p50_ms": 0.22,
+      "p90_ms": 0.35,
+      "p95_ms": 0.36,
+      "min_ms": 0.12,
+      "max_ms": 0.43
     },
     "end_to_end_total": {
-      "mean_ms": 788.83,
-      "p50_ms": 490.78,
-      "p90_ms": 1066.81,
-      "p95_ms": 1900.41,
-      "min_ms": 427.73,
-      "max_ms": 7371.21
+      "mean_ms": 659.86,
+      "p50_ms": 477.34,
+      "p90_ms": 609.86,
+      "p95_ms": 1931.51,
+      "min_ms": 433.13,
+      "max_ms": 4425.33
     }
   },
   "item_level_generation": [
@@ -1196,16 +1197,16 @@
         "category": "multi_chunk",
         "question": "What common mistakes with React hooks lead to stale closures, memory leaks, or infinite loops?",
         "hit@1": 0.0,
-        "hit@3": 1.0,
+        "hit@3": 0.0,
         "hit@5": 1.0,
         "recall@5": 0.5,
-        "mrr": 0.3333333333333333,
-        "ndcg@5": 0.3065735963827292,
+        "mrr": 0.25,
+        "ndcg@5": 0.2640681225725909,
         "retrieved_chunk_indices": [
           1,
           8,
-          9,
           10,
+          9,
           2
         ]
       },
@@ -3068,7 +3069,7 @@
         ]
       }
     ],
-    "Hybrid + Cross-Encoder Reranker": [
+    "Hybrid + Reranker (Fallback: RRF Order)": [
       {
         "id": "q01",
         "category": "direct_factual",

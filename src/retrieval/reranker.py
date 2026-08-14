@@ -46,6 +46,12 @@ def _get_cross_encoder():
     return _cross_encoder
 
 
+def is_cross_encoder_loaded() -> bool:
+    """Return True if a neural CrossEncoder model is loaded and active."""
+    return _get_cross_encoder() is not None
+
+
+
 def rerank_chunks(
     query: str,
     candidates: Sequence[Union[Chunk, tuple[Chunk, float]]],
